@@ -269,31 +269,52 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
 
       {/* CENTRAL LUXURY GOLD LOGO HEXAGON */}
       <div 
-        className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 w-[170px] xs:w-[190px] md:w-[210px] aspect-[0.866] transition-transform duration-700"
+        className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 w-[115px] xs:w-[130px] md:w-[145px] aspect-[0.866]"
         style={{
-          filter: 'drop-shadow(0 0 25px rgba(223, 177, 91, 0.3))'
+          filter: 'drop-shadow(0 0 15px rgba(223, 177, 91, 0.45))'
         }}
         id="center-logo-hexagon"
       >
         {/* Polygon clipping for clean backdrop */}
         <div 
-          className="w-full h-full bg-[#080808]/90 border-2 border-[#DFB15B]/90 relative flex flex-col items-center justify-center p-3 text-center"
+          className="w-full h-full bg-[#050505] relative flex flex-col items-center justify-center p-2 text-center pointer-events-none"
           style={{
             clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+            background: 'radial-gradient(circle at 50% 35%, rgba(223, 177, 91, 0.18) 0%, #050505 85%)'
           }}
         >
-          {/* Subtle inner lines */}
-          <div className="absolute inset-2 border border-[#DFB15B]/20 pointer-events-none" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }} />
+          {/* Symmetrical framing lines (inner hex border) */}
+          <div 
+            className="absolute inset-[3.5%] border border-[#DFB15B]/30 pointer-events-none" 
+            style={{ 
+              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' 
+            }} 
+          />
           
-          <span className="text-[10px] uppercase font-medium tracking-[0.25em] text-gray-400 font-sans mt-2">
-            3D VISUAL
-          </span>
-          <span className="text-4xl md:text-5xl font-serif font-light text-transparent bg-clip-text bg-gradient-to-b from-white via-[#DFB15B] to-[#9E7B31] py-1 drop-shadow-[0_2px_8px_rgba(223,177,91,0.4)] tracking-wide">
-            AP
-          </span>
-          <span className="text-[9px] uppercase tracking-[0.6em] text-amber-500/80 font-mono pl-1">
-            V07SOT
-          </span>
+          {/* Atmospheric golden light leak / flare from top-left */}
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
+
+          {/* Golden reflections on floor effect */}
+          <div className="absolute bottom-1 left-1/2 -translate-x-[50%] w-[60%] h-[1px] bg-gradient-to-r from-transparent via-[#DFB15B]/40 to-transparent blur-[1px] pointer-events-none" />
+          
+          <div className="flex flex-col items-center justify-center z-10 select-none mt-1">
+            {/* AP Logo */}
+            <span 
+              className="text-4xl xs:text-5xl md:text-5.5xl font-sans font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#FFF5E0] via-[#DFB15B] to-[#91712C] drop-shadow-[0_2px_6px_rgba(145,113,44,0.6)] leading-none"
+            >
+              AP
+            </span>
+            
+            {/* VO7SOT */}
+            <span className="text-[7.5px] xs:text-[8px] md:text-[9.5px] uppercase tracking-[0.25em] font-semibold text-transparent bg-clip-text bg-gradient-to-b from-[#FFF2D4] to-[#DFB15B] font-sans mt-0.5 leading-none">
+              VO7SOT
+            </span>
+            
+            {/* 3D VISUALIZATION */}
+            <span className="text-[5px] xs:text-[5.5px] md:text-[6.5px] uppercase tracking-[0.1em] font-light text-white/50 font-sans mt-1 leading-none">
+              3D VISUALIZATION
+            </span>
+          </div>
         </div>
       </div>
 
