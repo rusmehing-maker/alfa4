@@ -93,39 +93,19 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
 
       {/* GRAND GOLDEN ENCLOSING HEXAGON FOR ALL 6+1 CELLS */}
       <div 
-        className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-[2] w-full h-full pointer-events-none transition-all duration-700 ease-out"
-        style={{
-          transform: isAnyActive ? 'scale(1.02)' : 'scale(1.0)',
-        }}
+        className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-[2] w-full h-full pointer-events-none"
         id="enclosing-grand-hexagon"
       >
         <div className="w-full h-full relative flex items-center justify-center">
           {/* Faint luxury glass backdrop under the entire network */}
           <div 
-            className="absolute inset-0 bg-[#060606]/35 transition-colors duration-700"
+            className="absolute inset-0 bg-[#060606]/35"
             style={{
               clipPath: 'polygon(50% 1.5%, 92% 25.8%, 92% 74.2%, 50% 98.5%, 8% 74.2%, 8% 25.8%)',
-              background: isAnyActive 
-                ? 'radial-gradient(circle, rgba(223, 177, 91, 0.12) 0%, rgba(6, 6, 6, 0.6) 100%)'
-                : 'radial-gradient(circle, rgba(24, 24, 24, 0.1) 0%, rgba(6, 6, 6, 0.45) 100%)',
+              background: 'radial-gradient(circle, rgba(223, 177, 91, 0.08) 0%, rgba(6, 6, 6, 0.5) 100%)',
             }}
           />
           
-          {/* Radial grid linking and target alignment markings */}
-          <svg className="absolute inset-0 w-full h-full opacity-[0.15] transition-opacity duration-700" viewBox="0 0 100 100">
-            {/* Symmetrical line tracks from central core to corner vertices */}
-            <line x1="50" y1="50" x2="50" y2="5" stroke="#DFB15B" strokeWidth="0.8" strokeDasharray="3 4" />
-            <line x1="50" y1="50" x2="89" y2="27.5" stroke="#DFB15B" strokeWidth="0.8" strokeDasharray="3 4" />
-            <line x1="50" y1="50" x2="89" y2="72.5" stroke="#DFB15B" strokeWidth="0.8" strokeDasharray="3 4" />
-            <line x1="50" y1="50" x2="50" y2="95" stroke="#DFB15B" strokeWidth="0.8" strokeDasharray="3 4" />
-            <line x1="50" y1="50" x2="11" y2="72.5" stroke="#DFB15B" strokeWidth="0.8" strokeDasharray="3 4" />
-            <line x1="50" y1="50" x2="11" y2="27.5" stroke="#DFB15B" strokeWidth="0.8" strokeDasharray="3 4" />
-            
-            {/* Concentric orbital circles */}
-            <circle cx="50" cy="50" r="15" stroke="#DFB15B" strokeWidth="0.5" fill="none" opacity="0.35" />
-            <circle cx="50" cy="50" r="32" stroke="#DFB15B" strokeWidth="0.5" fill="none" opacity="0.2" strokeDasharray="2 3" />
-          </svg>
-
           {/* Hexagonal double line border outline */}
           <svg 
             className="absolute inset-0 w-full h-full pointer-events-none z-10"
@@ -136,21 +116,17 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
             {/* Massive inner main golden frame */}
             <polygon 
               points="50 5, 89 27.5, 89 72.5, 50 95, 11 72.5, 11 27.5" 
-              className="transition-all duration-700"
               style={{
-                stroke: isAnyActive ? '#DFB15B' : 'rgba(223, 177, 91, 0.3)',
-                strokeWidth: isAnyActive ? '1.5' : '1.0',
-                strokeDasharray: isAnyActive ? 'none' : '4, 4',
-                filter: isAnyActive ? 'drop-shadow(0 0 10px rgba(223, 177, 91, 0.45))' : 'none'
+                stroke: 'rgba(223, 177, 91, 0.35)',
+                strokeWidth: '1.0',
               }}
             />
             
             {/* Fine secondary out-rig frame */}
             <polygon 
               points="50 1.5, 92 25.8, 92 74.2, 50 98.5, 8 74.2, 8 25.8" 
-              className="transition-all duration-700"
               style={{
-                stroke: isAnyActive ? 'rgba(223, 177, 91, 0.45)' : 'rgba(223, 177, 91, 0.15)',
+                stroke: 'rgba(223, 177, 91, 0.15)',
                 strokeWidth: '0.7',
               }}
             />
@@ -168,24 +144,20 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
                 key={idx}
                 cx={pt.cx}
                 cy={pt.cy}
-                r={isAnyActive ? '1.2' : '0.8'}
-                className="fill-[#DFB15B] transition-all duration-700"
-                style={{
-                  filter: isAnyActive ? 'drop-shadow(0 0 5px rgba(223, 177, 91, 0.8))' : 'none',
-                }}
+                r="0.8"
+                className="fill-[#DFB15B]/40"
               />
             ))}
           </svg>
           
           {/* Subtle branding coordinates label inside the enclosing frame margin */}
-          <div className="absolute bottom-[2%] text-center px-4 font-mono z-10 transition-all duration-500 opacity-40 hover:opacity-100">
+          <div className="absolute bottom-[2%] text-center px-4 font-mono z-10 opacity-35">
             <span 
-              className="text-[6px] tracking-[0.4em] font-bold block uppercase transition-colors duration-500"
-              style={{ color: isAnyActive ? '#DFB15B' : 'rgba(255, 255, 255, 0.3)' }}
+              className="text-[6px] tracking-[0.4em] font-bold block uppercase text-white/40"
             >
               КОМПЛЕКСНАЯ ИНТЕГРАЦИЯ СРЕДЫ
             </span>
-            <span className="text-[8px] font-sans font-light text-white tracking-[0.25em] block mt-0.5 uppercase">
+            <span className="text-[8px] font-sans font-light text-white/30 tracking-[0.25em] block mt-0.5 uppercase">
               7 SOT SYSTEM • 3D MATRIX ACTIVE
             </span>
           </div>
