@@ -156,17 +156,17 @@ export default function App() {
           <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* LEFT AREA: STUDIO HEADLINE CREDENTIALS */}
-            <div className="lg:col-span-5 space-y-6 md:space-y-8 text-center lg:text-left animate-fade-in" id="hero-headlines">
+            <div className="lg:col-span-5 space-y-5 md:space-y-6 text-center lg:text-left animate-fade-in" id="hero-headlines">
               
               {/* Animated Gold Sparkle Header micro tagline */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-[#DFB15B]/10 to-transparent border-l-2 border-[#DFB15B] text-[9.5px] font-sans font-semibold tracking-[0.25em] text-[#DFB15B] uppercase">
-                <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gradient-to-r from-[#DFB15B]/10 to-transparent border-l-2 border-[#DFB15B] text-[8.5px] font-sans font-semibold tracking-[0.25em] text-[#DFB15B] uppercase">
+                <Sparkles className="w-3 h-3 animate-pulse" />
                 Архитектура • Интерьер • Визуализация
               </div>
 
               {/* Grand Cinematic Typography headings */}
-              <div className="space-y-4">
-                <h1 className="text-4xl sm:text-5xl xl:text-[58px] font-serif font-light leading-none tracking-tight text-white uppercase">
+              <div className="space-y-3">
+                <h1 className="text-3xl sm:text-4xl xl:text-[45px] lg:leading-[1.1] font-serif font-light tracking-tight text-white uppercase">
                   Премиальная <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#DFB15B] to-[#9E7B31] font-medium drop-shadow-[0_2px_15px_rgba(223,177,91,0.25)]">
                     3D Визуализация
@@ -174,35 +174,35 @@ export default function App() {
                   и моделирование
                 </h1>
                 
-                <p className="text-xs sm:text-sm text-gray-400 font-sans font-light leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <p className="text-[11px] sm:text-xs text-gray-400 font-sans font-light leading-relaxed max-w-md mx-auto lg:mx-0">
                   Мы создаём фотореалистичные визуализации и интерактивные 3D-модели, которые продают дорогостоящие идеи и вдохновляют на безупречную реализацию.
                 </p>
               </div>
 
               {/* Call to Action Button */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1">
                 <button 
                   onClick={() => handleOpenBooking('exterior')}
-                  className="group relative border border-[#DFB15B] hover:border-white px-8 py-4 text-[11px] font-semibold tracking-[0.25em] uppercase text-[#DFB15B] hover:text-black hover:bg-[#DFB15B] transition-all duration-500 shadow-[0_0_20px_rgba(223,177,91,0.15)] hover:shadow-[0_0_35px_rgba(223,177,91,0.4)] rounded-none cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
+                  className="group relative border border-[#DFB15B] hover:border-white px-7 py-3.5 text-[10.5px] font-semibold tracking-[0.25em] uppercase text-[#DFB15B] hover:text-black hover:bg-[#DFB15B] transition-all duration-300 shadow-[0_0_15px_rgba(223,177,91,0.12)] hover:shadow-[0_0_25px_rgba(223,177,91,0.35)] rounded-none cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
                   id="btn-main-cta"
                 >
                   Заказать визуализацию
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
                 
                 {/* Secondary Explore link */}
                 <a 
                   href="#experience-showroom"
-                  className="text-[9.5px] tracking-[0.2em] text-gray-500 hover:text-[#DFB15B] transition-colors py-2 uppercase font-mono flex items-center gap-1.5"
+                  className="text-[9px] tracking-[0.2em] text-gray-500 hover:text-[#DFB15B] transition-colors py-2 uppercase font-mono flex items-center gap-1.5"
                 >
-                  смотреть шоурум <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
+                  смотреть шоурум <ChevronDown className="w-3 h-3 animate-bounce" />
                 </a>
               </div>
             </div>
 
             {/* CENTER / RIGHT AREA: SHOWSTOPPING INTERACTIVE HONEYCOMB FLOWER */}
             <div className="lg:col-span-7 flex justify-center items-center relative" id="hero-hexagon-flower-panel">
-              <div className="w-full max-w-[500px] md:max-w-[550px] relative animate-[float_10s_ease-in-out_infinite]">
+              <div className="w-full max-w-[550px] md:max-w-[620px] lg:max-w-[640px] xl:max-w-[680px] relative animate-[float_10s_ease-in-out_infinite]">
                 <HexagonFlower onSelectService={handleSelectService} isMuted={isMuted} />
               </div>
             </div>
