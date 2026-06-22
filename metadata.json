@@ -1,0 +1,6 @@
+{
+  "name": "3D VISUAL AP",
+  "description": "Premium 3D visualization and architectural modeling studio (v07sot). Photorealistic rendering for luxury residences, interiors, interactive WebGL models and 360 virtual tours.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

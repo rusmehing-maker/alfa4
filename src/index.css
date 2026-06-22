@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@200;300;400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --animate-fade-in: fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-float: float 8s ease-in-out infinite;
+  --animate-pulse-gold: pulse-gold 4s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(0.5deg); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { opacity: 0.35; box-shadow: 0 0 15px rgba(223,177,91,0.15); }
+  50% { opacity: 0.7; box-shadow: 0 0 30px rgba(223,177,91,0.4); }
+}
+
+/* Hide slick scrollbars but retain smooth overflow behavior */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #030303;
+}
+::-webkit-scrollbar-thumb {
+  background: #DFB15B30;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #DFB15B60;
+}
+
+body {
+  background-color: #030303;
+  color: #F5F5F5;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Luxury Custom Range Slider overrides */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 0px;
+  background: #DFB15B;
+  cursor: pointer;
+  box-shadow: 0 0 8px #DFB15B;
+  transition: transform 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
