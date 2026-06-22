@@ -16,6 +16,7 @@ interface HexagonFlowerProps {
 
 export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [cubifiedIds, setCubifiedIds] = useState<string[]>([]);
 
   // Map the services to their trigonometric nodes around the center
   // Positions are calculated as { x, y } in percentages within a 100% relative frame
@@ -122,6 +123,8 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
       {hexNodes.map((node) => {
         const IconComponent = node.icon;
         const isHovered = hoveredId === node.id;
+        const isCubified = cubifiedIds.includes(node.id);
+        const isCubeActive = isHovered || isCubified;
         const s = node.service;
 
         return (
@@ -134,22 +137,29 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
             }}
             onMouseEnter={() => setHoveredId(node.id)}
             onMouseLeave={() => setHoveredId(null)}
-            onClick={() => onSelectService(node.id)}
+            onClick={() => {
+              setCubifiedIds(prev => 
+                prev.includes(node.id) 
+                  ? prev.filter(id => id !== node.id) 
+                  : [...prev, node.id]
+              );
+              onSelectService(node.id);
+            }}
             id={`flower-node-${node.id}`}
           >
             {/* The Outer Frame / Glow Ring */}
             <div 
               className="w-full h-full relative transition-all duration-500 ease-out flex items-center justify-center"
               style={{
-                transform: isHovered ? 'scale(1.08)' : 'scale(1.0)',
-                filter: isHovered 
-                  ? `drop-shadow(0 0 16px ${node.glowColor})`
+                transform: isCubeActive ? 'scale(1.08) translateY(-4px)' : 'scale(1.0)',
+                filter: isCubeActive 
+                  ? `drop-shadow(0 10px 20px ${node.glowColor})`
                   : 'drop-shadow(0 0 6px rgba(0, 0, 0, 0.8))'
               }}
             >
-              {/* Outer Hexagon Line SVG */}
+              {/* Outer Hexagon Line SVG with Internal 3D isometric edges */}
               <svg 
-                className="absolute inset-0 w-full h-full pointer-events-none"
+                className="absolute inset-0 w-full h-full pointer-events-none z-20"
                 viewBox="0 0 100 115"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -158,8 +168,52 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
                   points="50 3, 97 30, 97 85, 50 112, 3 85, 3 30" 
                   className="transition-all duration-500"
                   style={{
-                    stroke: isHovered ? node.color : 'rgba(223, 177, 91, 0.45)',
-                    strokeWidth: isHovered ? '3.5' : '2'
+                    stroke: isCubeActive ? node.color : 'rgba(223, 177, 91, 0.45)',
+                    strokeWidth: isCubeActive ? '3.5' : '2'
+                  }}
+                />
+                
+                {/* 3D Isometric Cube Internal Edges: center (50, 57.5) to Bottom-Mid, Top-Left, Top-Right */}
+                <line 
+                  x1="50" 
+                  y1="57.5" 
+                  x2="50" 
+                  y2="112" 
+                  stroke={node.color}
+                  strokeWidth="2.5"
+                  strokeDasharray="55"
+                  strokeDashoffset={isCubeActive ? 0 : 55}
+                  style={{
+                    opacity: isCubeActive ? 1 : 0,
+                    transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out'
+                  }}
+                />
+                <line 
+                  x1="50" 
+                  y1="57.5" 
+                  x2="3" 
+                  y2="30" 
+                  stroke={node.color}
+                  strokeWidth="2.5"
+                  strokeDasharray="55"
+                  strokeDashoffset={isCubeActive ? 0 : 55}
+                  style={{
+                    opacity: isCubeActive ? 1 : 0,
+                    transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out'
+                  }}
+                />
+                <line 
+                  x1="50" 
+                  y1="57.5" 
+                  x2="97" 
+                  y2="30" 
+                  stroke={node.color}
+                  strokeWidth="2.5"
+                  strokeDasharray="55"
+                  strokeDashoffset={isCubeActive ? 0 : 55}
+                  style={{
+                    opacity: isCubeActive ? 1 : 0,
+                    transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out'
                   }}
                 />
               </svg>
@@ -178,7 +232,7 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
                   referrerPolicy="no-referrer"
                   className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out"
                   style={{
-                    filter: isHovered 
+                    filter: isCubeActive 
                       ? 'scale(1.1) brightness(0.9) saturate(1.1)' 
                       : `scale(1.0) brightness(0.4) saturate(0.6) sepia(0.3) hue-rotate(${node.id === 'interior' ? '60deg' : node.id === 'animation' ? '240deg' : node.id === 'tours' ? '180deg' : node.id === 'models' ? '150deg' : '0deg'})`
                   }}
@@ -189,7 +243,36 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
                   className="absolute inset-0 transition-opacity duration-500 opacity-60 mix-blend-color"
                   style={{
                     background: `radial-gradient(circle, ${node.color} 0%, rgba(0,0,0,0.8) 100%)`,
-                    opacity: isHovered ? '0.35' : '0.75'
+                    opacity: isCubeActive ? '0.35' : '0.75'
+                  }}
+                />
+
+                {/* 3D Isometric Face Shading Overlays (Drawn when hovered or clicked) */}
+                {/* Top Face Light Source Overlay */}
+                <div 
+                  className="absolute inset-0 transition-opacity duration-700 pointer-events-none z-10"
+                  style={{
+                    clipPath: 'polygon(50% 50%, 0% 25%, 50% 0%, 100% 25%)',
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.03) 100%)',
+                    opacity: isCubeActive ? 1 : 0,
+                  }}
+                />
+                {/* Left Face Shading Overlay */}
+                <div 
+                  className="absolute inset-0 transition-opacity duration-700 pointer-events-none z-10"
+                  style={{
+                    clipPath: 'polygon(50% 50%, 0% 25%, 0% 75%, 50% 100%)',
+                    background: 'linear-gradient(225deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%)',
+                    opacity: isCubeActive ? 1 : 0,
+                  }}
+                />
+                {/* Right Face Shading Overlay (Deep Shadow) */}
+                <div 
+                  className="absolute inset-0 transition-opacity duration-700 pointer-events-none z-10"
+                  style={{
+                    clipPath: 'polygon(50% 50%, 100% 25%, 100% 75%, 50% 100%)',
+                    background: 'linear-gradient(315deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.8) 100%)',
+                    opacity: isCubeActive ? 1 : 0,
                   }}
                 />
 
@@ -207,8 +290,8 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
                     <IconComponent 
                       className="w-5 h-5 transition-transform duration-500"
                       style={{
-                        color: isHovered ? '#FFFFFF' : '#DFB15B',
-                        transform: isHovered ? 'rotate(10deg)' : 'none'
+                        color: isCubeActive ? '#FFFFFF' : '#DFB15B',
+                        transform: isCubeActive ? 'rotate(10deg)' : 'none'
                       }}
                     />
                   </div>
@@ -222,8 +305,8 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
                   <div 
                     className="overflow-hidden transition-all duration-500 max-h-0 text-[6px] text-[#DFB15B] tracking-widest font-mono uppercase mt-0.5"
                     style={{
-                      maxHeight: isHovered ? '12px' : '0px',
-                      opacity: isHovered ? '1' : '0'
+                      maxHeight: isCubeActive ? '12px' : '0px',
+                      opacity: isCubeActive ? '1' : '0'
                     }}
                   >
                     Перейти →
