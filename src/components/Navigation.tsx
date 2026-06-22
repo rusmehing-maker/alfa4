@@ -1,7 +1,7 @@
 import { 
   Building2, 
-  Armchair, 
-  Clapperboard, 
+  Layers, 
+  Video, 
   Compass, 
   Box, 
   Sparkles, 
@@ -23,8 +23,8 @@ export default function Navigation({ onSelectService, onOpenBooking, activeServi
   // Let's define the navigation items matching the request
   const navItems = [
     { id: 'exterior', label: 'EXTERIOR\nVISUALIZATION', icon: Building2, color: '#FF7A00' },
-    { id: 'interior', label: 'INTERIOR\nVISUALIZATION', icon: Armchair, color: '#10B981' },
-    { id: 'animation', label: 'ARCHITECTURAL\nANIMATION', icon: Clapperboard, color: '#A855F7' },
+    { id: 'interior', label: 'INTERIOR\nVISUALIZATION', icon: Layers, color: '#10B981' },
+    { id: 'animation', label: 'ARCHITECTURAL\nANIMATION', icon: Video, color: '#A855F7' },
     { id: 'tours', label: '360°\nVIRTUAL TOURS', icon: Compass, color: '#3B82F6' },
     { id: 'models', label: 'INTERACTIVE\n3D MODELS', icon: Box, color: '#06B6D4' },
     { id: 'concept', label: 'CONCEPT\nDESIGN', icon: Sparkles, color: '#FACC15' },

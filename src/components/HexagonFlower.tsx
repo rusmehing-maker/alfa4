@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { 
   Building2, 
-  Armchair, 
-  Clapperboard, 
+  Layers, 
+  Video, 
   Compass, 
   Box, 
   Sparkles 
@@ -12,9 +12,112 @@ import { ServiceItem } from '../types';
 
 interface HexagonFlowerProps {
   onSelectService: (serviceId: string) => void;
+  isMuted?: boolean;
 }
 
-export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
+// Lazy loaded global AudioContext to bypass chrome autoplay checks safely
+let globalAudioCtx: AudioContext | null = null;
+
+function getAudioContext(): AudioContext | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioCtxClass) return null;
+    if (!globalAudioCtx) {
+      globalAudioCtx = new AudioCtxClass();
+    }
+    if (globalAudioCtx && globalAudioCtx.state === 'suspended') {
+      globalAudioCtx.resume().catch(() => {});
+    }
+    return globalAudioCtx;
+  } catch (error) {
+    console.warn('AudioContext initialization or access blocked:', error);
+    return null;
+  }
+}
+
+// Sophinescent crystalline technological hover blip
+function playHoverSound(isMuted?: boolean) {
+  if (isMuted) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  try {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    // Clean futuristic beep
+    osc.frequency.setValueAtTime(1100, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1450, ctx.currentTime + 0.08);
+
+    gain.gain.setValueAtTime(0.012, ctx.currentTime); // delicate volume
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.08);
+  } catch (error) {
+    console.warn('Audio synthesis error:', error);
+  }
+}
+
+// Lush ambient chord glide or release slide representation
+function playCubeSound(isBecomingCube: boolean, isMuted?: boolean) {
+  if (isMuted) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  try {
+    const now = ctx.currentTime;
+    
+    if (isBecomingCube) {
+      // E Major Chord (golden ratio harmonics: E, G#, B, E)
+      const freqs = [329.63, 415.30, 493.88, 659.25];
+      
+      freqs.forEach((freq, index) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.type = 'triangle'; // pure warm analog
+        osc.frequency.setValueAtTime(freq, now + index * 0.015);
+        
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.015, now + 0.04 + index * 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45 + index * 0.02);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.start(now);
+        osc.stop(now + 0.5);
+      });
+    } else {
+      // Gentle sci-fi dematerialization down-sweep
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(190, now + 0.3);
+      
+      gain.gain.setValueAtTime(0.018, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      
+      osc.start(now);
+      osc.stop(now + 0.35);
+    }
+  } catch (error) {
+    console.warn('Audio synthesis error:', error);
+  }
+}
+
+export default function HexagonFlower({ onSelectService, isMuted = true }: HexagonFlowerProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [cubifiedIds, setCubifiedIds] = useState<string[]>([]);
 
@@ -37,7 +140,7 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
       y: 34,
       color: 'rgba(168, 85, 247, 0.85)',
       glowColor: 'rgba(168, 85, 247, 0.65)',
-      icon: Clapperboard,
+      icon: Video,
     },
     {
       id: 'models',
@@ -73,7 +176,7 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
       y: 34,
       color: 'rgba(16, 185, 129, 0.85)',
       glowColor: 'rgba(16, 185, 129, 0.65)',
-      icon: Armchair,
+      icon: Layers,
     },
   ];
 
@@ -210,14 +313,20 @@ export default function HexagonFlower({ onSelectService }: HexagonFlowerProps) {
               left: `${node.x}%`,
               top: `${node.y}%`,
             }}
-            onMouseEnter={() => setHoveredId(node.id)}
+            onMouseEnter={() => {
+              setHoveredId(node.id);
+              playHoverSound(isMuted);
+            }}
             onMouseLeave={() => setHoveredId(null)}
             onClick={() => {
+              const isCurrentlyCubified = cubifiedIds.includes(node.id);
               setCubifiedIds(prev => 
                 prev.includes(node.id) 
                   ? prev.filter(id => id !== node.id) 
                   : [...prev, node.id]
               );
+              // Play immersive 3D materialization / dematerialization synthesis
+              playCubeSound(!isCurrentlyCubified, isMuted);
               onSelectService(node.id);
             }}
             id={`flower-node-${node.id}`}

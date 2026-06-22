@@ -48,7 +48,7 @@ export const SERVICES: ServiceItem[] = [
     colorName: 'green',
     colorHex: '#10B981',
     glowClass: 'shadow-[0_0_30px_rgba(16,185,129,0.5)] border-[#10B981]/50 hover:border-[#10B981]',
-    iconName: 'Armchair',
+    iconName: 'Layers',
     bgImage: interiorImage,
     demo: {
       type: 'materials',
@@ -77,7 +77,7 @@ export const SERVICES: ServiceItem[] = [
     colorName: 'purple',
     colorHex: '#A855F7',
     glowClass: 'shadow-[0_0_30px_rgba(168,85,247,0.5)] border-[#A855F7]/50 hover:border-[#A855F7]',
-    iconName: 'Clapperboard',
+    iconName: 'Video',
     bgImage: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80',
     demo: {
       type: 'camera',

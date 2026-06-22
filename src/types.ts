@@ -15,7 +15,7 @@ export interface ServiceItem {
   colorName: string; // 'orange' | 'green' | 'purple' | 'blue' | 'teal' | 'yellow'
   colorHex: string;
   glowClass: string;
-  iconName: 'Building2' | 'Armchair' | 'Clapperboard' | 'Compass' | 'Box' | 'Sparkles' | 'Tv';
+  iconName: 'Building2' | 'Layers' | 'Video' | 'Compass' | 'Box' | 'Sparkles' | 'Tv';
   bgImage: string;
   demo: ServiceDemo;
   gallery: string[];

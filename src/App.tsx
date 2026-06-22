@@ -46,14 +46,18 @@ export default function App() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Calculate normalized mouse positions (-1 to 1)
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = (e.clientY / window.innerHeight) * 2 - 1;
-      setMousePos({ x, y });
+      const width = window.innerWidth || 1;
+      const height = window.innerHeight || 1;
+      const x = (e.clientX / width) * 2 - 1;
+      const y = (e.clientY / height) * 2 - 1;
+      setMousePos({ 
+        x: isNaN(x) || !isFinite(x) ? 0 : x, 
+        y: isNaN(y) || !isFinite(y) ? 0 : y 
+      });
     };
 
     const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollHeight = document.documentElement.scrollHeight - (window.innerHeight || 1);
       if (scrollHeight > 0) {
         setScrollProgress(window.scrollY / scrollHeight);
       }
@@ -199,7 +203,7 @@ export default function App() {
             {/* CENTER / RIGHT AREA: SHOWSTOPPING INTERACTIVE HONEYCOMB FLOWER */}
             <div className="lg:col-span-7 flex justify-center items-center relative" id="hero-hexagon-flower-panel">
               <div className="w-full max-w-[500px] md:max-w-[550px] relative animate-[float_10s_ease-in-out_infinite]">
-                <HexagonFlower onSelectService={handleSelectService} />
+                <HexagonFlower onSelectService={handleSelectService} isMuted={isMuted} />
               </div>
             </div>
 
