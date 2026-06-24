@@ -401,13 +401,13 @@ export default function HexagonFlower({ onSelectService, onOpenBooking, isMuted 
               {/* Brand identity texts matched precisely to the uploaded image typography but centered & scaled beautifully */}
               <div className="flex flex-col items-center justify-center w-full text-center gap-2 sm:gap-4" style={{ transform: 'translateZ(5px)' }}>
                 <span 
-                  className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] xl:text-[64px] font-sans font-extrabold tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-b from-[#FFF9E6] via-[#DFB15B] to-[#80601F] leading-none select-none pl-[0.2em]"
+                  className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] xl:text-[64px] font-sans font-extrabold tracking-[0.05em] text-transparent bg-clip-text bg-gradient-to-b from-[#FFF9E6] via-[#DFB15B] to-[#80601F] leading-none select-none pl-[0.05em]"
                   style={{ 
                     fontFamily: "'Space Grotesk', 'Inter', sans-serif",
                     filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.85))' 
                   }}
                 >
-                  A P
+                  AP
                 </span>
                 
                 <span 

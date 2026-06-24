@@ -6,34 +6,41 @@ export default function ThreeGoldenLogo() {
     <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>VO7SOT 3D Golden Logo Space</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <title>VO7SOT 3D Letters & Fireworks</title>
         <style>
             body {
                 margin: 0;
                 overflow: hidden;
                 background-color: #000;
-                font-family: monospace;
+                font-family: sans-serif;
+                user-select: none;
+                -webkit-user-select: none;
             }
             canvas {
                 display: block;
-                width: 100% !important;
-                height: 100% !important;
+            }
+            #ui {
+                position: absolute;
+                bottom: 20px;
+                width: 100%;
+                text-align: center;
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 14px;
+                pointer-events: none;
+                letter-spacing: 1px;
+                text-transform: uppercase;
             }
             #loading {
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                color: #DFB15B;
-                font-size: 8px;
-                letter-spacing: 0.2em;
-                text-transform: uppercase;
+                color: #ffd700;
+                font-size: 20px;
+                font-weight: bold;
                 pointer-events: none;
                 transition: opacity 0.5s;
-                text-align: center;
-                white-space: nowrap;
-                text-shadow: 0 0 10px rgba(223, 177, 91, 0.5);
             }
         </style>
         <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
@@ -47,7 +54,8 @@ export default function ThreeGoldenLogo() {
         </script>
     </head>
     <body>
-        <div id="loading">ЗАГРУЗКА ЛОГОТИПА...</div>
+        <div id="loading">Идет загрузка 3D-шрифта...</div>
+        <div id="ui">Крути сцену • Кликай по буквам для салюта</div>
 
         <script type="module">
             import * as THREE from 'three';
@@ -55,147 +63,227 @@ export default function ThreeGoldenLogo() {
             import { FontLoader } from 'three/addons/loaders/FontLoader.js';
             import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
+            // --- 1. СЦЕНА И КАМЕРА ---
             const scene = new THREE.Scene();
             scene.fog = new THREE.FogExp2(0x000000, 0.005);
 
-            const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 21; // Adjusted closer so it fills the small logo box beautifully
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 35;
 
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             document.body.appendChild(renderer.domElement);
 
             const controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
-            controls.enableZoom = false; // Disable zooming so it stays focused as a UI logo
 
-            // --- ОСВЕЩЕНИЕ ---
-            const ambientLight = new THREE.AmbientLight(0x555555);
+            // --- 2. СВЕТ ДЛЯ ЗОЛОТА ---
+            const ambientLight = new THREE.AmbientLight(0x444444);
             scene.add(ambientLight);
 
-            const dirLight1 = new THREE.DirectionalLight(0xffffff, 4); 
+            const dirLight1 = new THREE.DirectionalLight(0xffffff, 3); 
             dirLight1.position.set(20, 20, 20);
             scene.add(dirLight1);
 
-            const dirLight2 = new THREE.DirectionalLight(0xffaa44, 3); 
+            const dirLight2 = new THREE.DirectionalLight(0xffaa44, 2); 
             dirLight2.position.set(-20, -20, 10);
             scene.add(dirLight2);
 
-            // --- ЗВЕЗДЫ ---
-            const starsCount = 1500; // Adjusted for smaller canvas performance
+            // --- 3. ГЕНЕРАЦИЯ ТЕКСТУРЫ ИСКРЫ ---
+            function createSparkTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 16; canvas.height = 16;
+                const ctx = canvas.getContext('2d');
+                const grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
+                grad.addColorStop(0, 'rgba(255,255,255,1)');
+                grad.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.fillStyle = grad; ctx.fillRect(0, 0, 16, 16);
+                return new THREE.CanvasTexture(canvas);
+            }
+            const sparkTexture = createSparkTexture();
+
+            // --- 4. ЗВЕЗДНЫЙ ФОН ---
+            const starsCount = 2000;
             const starsGeometry = new THREE.BufferGeometry();
             const starsPositions = new Float32Array(starsCount * 3);
-
             for(let i = 0; i < starsCount * 3; i += 3) {
-                starsPositions[i] = (Math.random() - 0.5) * 150;
-                starsPositions[i+1] = (Math.random() - 0.5) * 150;
-                starsPositions[i+2] = (Math.random() - 0.5) * 300;
+                starsPositions[i] = (Math.random() - 0.5) * 200;
+                starsPositions[i+1] = (Math.random() - 0.5) * 200;
+                starsPositions[i+2] = (Math.random() - 0.5) * 400;
             }
-
             starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
-
-            const pCanvas = document.createElement('canvas');
-            pCanvas.width = 16;
-            pCanvas.height = 16;
-            const pCtx = pCanvas.getContext('2d');
-            const grad = pCtx.createRadialGradient(8, 8, 0, 8, 8, 8);
-            grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-            pCtx.fillStyle = grad;
-            pCtx.fillRect(0, 0, 16, 16);
-            const starTexture = new THREE.CanvasTexture(pCanvas);
-
             const starsMaterial = new THREE.PointsMaterial({
-                color: 0xffe0a0, // Warm starry glow matching gold
-                size: 0.5,
-                map: starTexture,
-                transparent: true,
-                blending: THREE.AdditiveBlending,
-                depthWrite: false
+                color: 0xffffff, size: 0.6, map: sparkTexture,
+                transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
             });
-
             const starField = new THREE.Points(starsGeometry, starsMaterial);
             scene.add(starField);
 
-            // --- ЛОГОТИП VO7SOT ---
+            // --- 5. ОБЪЕМНЫЕ БУКВЫ VO7SOT ---
             let logoMesh;
             const loader = new FontLoader();
             
-            loader.load('https://threejs.org/examples/fonts/helvetiker_bold.typeface.json', function (font) {
-                
+            // Загружаем шрифт из интернета
+            loader.load('https://unpkg.com/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json', function (font) {
                 const textGeometry = new TextGeometry('VO7SOT', {
                     font: font,
-                    size: 4.8, // Slightly adjusted for perfect proportions
-                    height: 1.6,
+                    size: 7,
+                    height: 2.5, // Толщина букв
                     curveSegments: 12,
                     bevelEnabled: true,
-                    bevelThickness: 0.25,
-                    bevelSize: 0.15,
+                    bevelThickness: 0.3,
+                    bevelSize: 0.2,
                     bevelOffset: 0,
                     bevelSegments: 5
                 });
+                textGeometry.center(); // Центрируем
 
-                textGeometry.center();
-
+                // Настройка золота
                 const goldMaterial = new THREE.MeshStandardMaterial({
-                    color: 0xffd700,
-                    metalness: 0.95,
-                    roughness: 0.15,
-                    clearcoat: 1.0,
-                    clearcoatRoughness: 0.1
+                    color: 0xffd700,      
+                    metalness: 0.9,      
+                    roughness: 0.2,      
                 });
 
                 logoMesh = new THREE.Mesh(textGeometry, goldMaterial);
                 scene.add(logoMesh);
 
-                const loaderEl = document.getElementById('loading');
-                if (loaderEl) {
-                  loaderEl.style.opacity = 0;
-                  setTimeout(() => loaderEl.remove(), 500);
-                }
+                document.getElementById('loading').style.opacity = 0; // Прячем загрузку
             });
 
-            // --- АНИМАЦИЯ ---
+            // --- 6. ЛОГИКА САЛЮТОВ ---
+            const activeFireworks = [];
+
+            function createFirework(position) {
+                const particleCount = 150;
+                const geometry = new THREE.BufferGeometry();
+                const positions = new Float32Array(particleCount * 3);
+                const velocities = new Float32Array(particleCount * 3);
+                const colors = new Float32Array(particleCount * 3);
+
+                // Случайный цвет взрыва (сочные цвета)
+                const baseColor = new THREE.Color().setHSL(Math.random(), 1.0, 0.6);
+
+                for (let i = 0; i < particleCount * 3; i += 3) {
+                    // Стартуем из точки клика
+                    positions[i] = position.x;
+                    positions[i + 1] = position.y;
+                    positions[i + 2] = position.z;
+
+                    // Вектор разлета (сфера)
+                    const u = Math.random();
+                    const v = Math.random();
+                    const theta = u * 2.0 * Math.PI;
+                    const phi = Math.acos(2.0 * v - 1.0);
+                    const speed = Math.random() * 15 + 5; 
+
+                    velocities[i] = Math.sin(phi) * Math.cos(theta) * speed;
+                    velocities[i + 1] = Math.sin(phi) * Math.sin(theta) * speed;
+                    velocities[i + 2] = Math.cos(phi) * speed;
+
+                    // Немного разбавляем цвета искр
+                    const sparkColor = baseColor.clone().offsetHSL(0, 0, (Math.random() - 0.5) * 0.2);
+                    colors[i] = sparkColor.r;
+                    colors[i + 1] = sparkColor.g;
+                    colors[i + 2] = sparkColor.b;
+                }
+
+                geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                geometry.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
+                geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+                const material = new THREE.PointsMaterial({
+                    size: 0.8, map: sparkTexture,
+                    transparent: true, blending: THREE.AdditiveBlending,
+                    vertexColors: true, depthWrite: false
+                });
+
+                const firework = new THREE.Points(geometry, material);
+                firework.userData = { life: 1.5 }; // Живет 1.5 секунды
+                scene.add(firework);
+                activeFireworks.push(firework);
+            }
+
+            // --- 7. КЛИКИ ПО БУКВАМ ---
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+
+            function checkIntersection(clientX, clientY) {
+                mouse.x = (clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(clientY / window.innerHeight) * 2 + 1;
+
+                raycaster.setFromCamera(mouse, camera);
+                if (logoMesh) {
+                    const intersects = raycaster.intersectObject(logoMesh);
+                    if (intersects.length > 0) {
+                        createFirework(intersects[0].point); // Салют из точки попадания
+                    }
+                }
+            }
+
+            // Обработка мыши
+            window.addEventListener('pointerdown', (e) => {
+                if (e.isPrimary) checkIntersection(e.clientX, e.clientY);
+            });
+
+            // --- 8. АНИМАЦИЯ ---
             const clock = new THREE.Clock();
 
             function animate() {
                 requestAnimationFrame(animate);
-
                 const delta = clock.getDelta();
                 controls.update();
 
-                // Stars flying
-                const positions = starField.geometry.attributes.position.array;
-                for (let i = 2; i < positions.length; i += 3) {
-                    positions[i] += 40 * delta;
-                    if (positions[i] > 30) {
-                        positions[i] = -250;
-                    }
+                // Движение звезд
+                const starPos = starField.geometry.attributes.position.array;
+                for (let i = 2; i < starPos.length; i += 3) {
+                    starPos[i] += 40 * delta; 
+                    if (starPos[i] > 40) starPos[i] = -350;
                 }
                 starField.geometry.attributes.position.needsUpdate = true;
 
-                // Continuous default rotation
-                if (logoMesh) {
-                    // Slow oscillation when user isn't dragging
-                    const time = clock.getElapsedTime();
-                    logoMesh.rotation.y = Math.sin(time * 0.4) * 0.25;
-                    logoMesh.rotation.x = Math.cos(time * 0.25) * 0.08;
+                // Легкое покачивание букв
+                if (logoMesh && controls.state === -1) {
+                    logoMesh.rotation.y = Math.sin(clock.getElapsedTime() * 0.5) * 0.15;
+                    logoMesh.rotation.x = Math.cos(clock.getElapsedTime() * 0.3) * 0.05;
+                }
+
+                // Обновление салютов
+                for (let i = activeFireworks.length - 1; i >= 0; i--) {
+                    const fw = activeFireworks[i];
+                    fw.userData.life -= delta;
+
+                    if (fw.userData.life <= 0) {
+                        scene.remove(fw);
+                        fw.geometry.dispose();
+                        fw.material.dispose();
+                        activeFireworks.splice(i, 1);
+                        continue;
+                    }
+
+                    const positions = fw.geometry.attributes.position.array;
+                    const velocities = fw.geometry.attributes.velocity.array;
+
+                    for (let j = 0; j < positions.length; j++) {
+                        positions[j] += velocities[j] * delta;
+                        velocities[j] *= 0.95; // Сопротивление воздуха (искры тормозят)
+                    }
+                    fw.geometry.attributes.position.needsUpdate = true;
+                    fw.material.opacity = fw.userData.life / 1.5; // Затухание
                 }
 
                 renderer.render(scene, camera);
             }
-
             animate();
 
-            window.addEventListener('resize', onWindowResize, false);
-
-            function onWindowResize() {
+            // Ресайз
+            window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-            }
+            });
         </script>
     </body>
     </html>
@@ -203,7 +291,7 @@ export default function ThreeGoldenLogo() {
 
   return (
     <div 
-      className="w-full max-w-[480px] h-[160px] sm:h-[243px] border border-[#DFB15B]/20 bg-black/80 relative overflow-hidden rounded shadow-[0_0_20px_rgba(0,0,0,0.9)] mt-6 group/logo mx-auto"
+      className="w-full max-w-[960px] h-[160px] sm:h-[243px] border border-[#DFB15B]/20 bg-black/80 relative overflow-hidden rounded shadow-[0_0_20px_rgba(0,0,0,0.9)] mt-6 group/logo mx-auto"
       id="threejs-logo-container"
     >
       {/* Golden accent glow corner lines */}
