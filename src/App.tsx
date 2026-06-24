@@ -151,8 +151,8 @@ export default function App() {
       {/* 3. HERO CONTENT CONTAINER (SINGLE PAGE MASTER STAGE) */}
       <main className="relative z-10 flex-grow flex flex-col" id="master-main-wrapper">
         
-        {/* HERO SECTION STAGE */}
-        <section className="min-h-screen px-6 lg:px-12 flex flex-col items-center justify-center pt-28 lg:pt-24 pb-16" id="section-hero">
+        {/* HERO SECTION STAGE - Adjusted top padding to completely prevent overlap with absolute header controls */}
+        <section className="min-h-screen px-6 lg:px-12 flex flex-col items-center justify-center pt-48 sm:pt-48 md:pt-44 lg:pt-44 xl:pt-48 pb-16" id="section-hero">
           <div className="max-w-5xl w-full mx-auto flex flex-col items-center justify-center gap-12">
             
             {/* CENTERED AREA: STUDIO HEADLINE CREDENTIALS */}
@@ -166,11 +166,10 @@ export default function App() {
 
               {/* Grand Cinematic Typography headings */}
               <div className="space-y-3">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[48px] leading-[1.15] font-serif font-light tracking-tight text-white uppercase max-w-2xl">
-                  Премиальная <br />
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[48px] leading-[1.15] font-serif font-light tracking-tight text-white uppercase max-w-4xl">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#DFB15B] to-[#9E7B31] font-medium drop-shadow-[0_2px_15px_rgba(223,177,91,0.25)]">
                     3D Визуализация
-                  </span> <br />
+                  </span>{" "}
                   и моделирование
                 </h1>
                 
@@ -203,7 +202,11 @@ export default function App() {
             {/* CENTER / BOTTOM STAGE: SHOWSTOPPING INTERACTIVE HONEYCOMB FLOWER */}
             <div className="w-full flex justify-center items-center relative" id="hero-hexagon-flower-panel">
               <div className="w-full max-w-[550px] md:max-w-[620px] lg:max-w-[640px] xl:max-w-[680px] relative animate-[float_10s_ease-in-out_infinite]">
-                <HexagonFlower onSelectService={handleSelectService} isMuted={isMuted} />
+                <HexagonFlower 
+                  onSelectService={handleSelectService} 
+                  onOpenBooking={() => handleOpenBooking('exterior')} 
+                  isMuted={isMuted} 
+                />
               </div>
             </div>
 

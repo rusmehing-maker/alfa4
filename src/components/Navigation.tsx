@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { SERVICES } from '../data';
 import { ServiceItem } from '../types';
+import ThreeGoldenLogo from './ThreeGoldenLogo';
 
 interface NavigationProps {
   onSelectService: (serviceId: string) => void;
@@ -35,22 +36,26 @@ export default function Navigation({ onSelectService, onOpenBooking, activeServi
   return (
     <header className="absolute top-0 left-0 w-full z-40 bg-gradient-to-b from-[#060606]/90 via-[#060606]/40 to-transparent pt-4 pb-12 px-6 lg:px-12">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Left Side: Logo */}
-        <div 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="cursor-pointer group select-none flex flex-col justify-start"
-          id="nav-logo"
-        >
-          <div className="text-xl lg:text-2xl font-semibold tracking-[0.2em] text-white">
-            3D VISUAL <span className="text-[#DFB15B] font-serif font-light drop-shadow-[0_0_12px_rgba(223,177,91,0.5)]">AP</span>
+        {/* Left Side: Logo & Interactive 3D */}
+        <div className="flex flex-col items-start gap-1" id="nav-logo-area">
+          <div 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="cursor-pointer group select-none flex flex-col justify-start"
+            id="nav-logo"
+          >
+            <div className="text-xl lg:text-2xl font-semibold tracking-[0.2em] text-white">
+              3D VISUAL <span className="text-[#DFB15B] font-serif font-light drop-shadow-[0_0_12px_rgba(223,177,91,0.5)]">AP</span>
+            </div>
+            <div className="text-[9px] tracking-[0.5em] text-gray-500 group-hover:text-amber-500/80 transition-all duration-500">
+              V07SOT
+            </div>
           </div>
-          <div className="text-[9px] tracking-[0.5em] text-gray-500 group-hover:text-amber-500/80 transition-all duration-500">
-            V07SOT
-          </div>
+          
+          <ThreeGoldenLogo />
         </div>
 
         {/* Center: Horizontal Honeycomb Navigation */}
-        <nav className="hidden xl:flex items-center gap-2" id="nav-horizontal-menu">
+        <nav className="hidden xl:flex items-center gap-1" id="nav-horizontal-menu">
           {navItems.map((item, index) => {
             const IconComponent = item.icon;
             const isSelected = activeServiceId === item.id;
@@ -59,37 +64,53 @@ export default function Navigation({ onSelectService, onOpenBooking, activeServi
               <div 
                 key={index}
                 onClick={() => onSelectService(item.id)}
-                className="group flex flex-col items-center cursor-pointer relative"
+                className="group flex flex-col items-center cursor-pointer relative w-24"
                 id={`nav-item-${item.id}-${index}`}
               >
                 {/* Micro hexagonal outline shell */}
                 <div className="relative w-11 h-12 flex items-center justify-center transition-all duration-500 hover:scale-110">
                   {/* Hexagon Background Frame */}
                   <svg 
-                    className="absolute inset-0 w-full h-full text-transparent drop-shadow-[0_0_4px_rgba(223,177,91,0.2)] group-hover:drop-shadow-[0_0_8px_rgba(223,177,91,0.6)] transition-all duration-300"
+                    className={`absolute inset-0 w-full h-full text-transparent transition-all duration-300 ${
+                      isSelected 
+                        ? 'drop-shadow-[0_0_8px_rgba(223,177,91,0.75)]' 
+                        : 'drop-shadow-[0_0_4px_rgba(223,177,91,0.2)] group-hover:drop-shadow-[0_0_8px_rgba(223,177,91,0.6)]'
+                    }`}
                     viewBox="0 0 100 115"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <polygon 
                       points="50 3, 97 30, 97 85, 50 112, 3 85, 3 30" 
-                      className="stroke-[#DFB15B]/40 group-hover:stroke-[#DFB15B] transition-all duration-500 fill-black/60"
+                      className={`transition-all duration-500 fill-black/60 ${
+                        isSelected 
+                          ? 'stroke-[#DFB15B] stroke-[6px]' 
+                          : 'stroke-[#DFB15B]/40 group-hover:stroke-[#DFB15B]'
+                      }`}
                       strokeWidth="5"
                     />
                   </svg>
                   
                   {/* Icon */}
                   <IconComponent 
-                    className="w-5 h-5 text-[#DFB15B]/70 group-hover:text-white transition-all duration-300 z-10" 
+                    className={`w-5 h-5 transition-all duration-300 z-10 ${
+                      isSelected ? 'text-white' : 'text-[#DFB15B]/70 group-hover:text-white'
+                    }`} 
                     style={{ filter: `drop-shadow(0 0 4px ${item.color}40)` }}
                   />
                 </div>
 
                 {/* Vertical Separator Connector Thread */}
-                <div className="w-[1px] h-1.5 bg-[#DFB15B]/20 group-hover:bg-[#DFB15B]/60 transition-colors" />
+                <div className={`w-[1px] h-2 transition-colors ${
+                  isSelected ? 'bg-[#DFB15B]' : 'bg-[#DFB15B]/20 group-hover:bg-[#DFB15B]/60'
+                }`} />
 
                 {/* Sub-label */}
-                <div className="text-[7.5px] leading-tight font-sans tracking-wider text-[#A3A3A3] group-hover:text-[#DFB15B] text-center whitespace-pre-wrap transition-all duration-300 font-medium h-6">
+                <div className={`text-[7.5px] leading-[1.3] font-sans tracking-wider text-center whitespace-pre-wrap transition-all duration-300 min-h-[22px] h-auto mt-1 pb-1 px-1 ${
+                  isSelected 
+                    ? 'text-[#DFB15B] font-bold' 
+                    : 'text-[#A3A3A3] group-hover:text-[#DFB15B] font-medium'
+                }`}>
                   {item.label}
                 </div>
               </div>

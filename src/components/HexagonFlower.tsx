@@ -12,6 +12,7 @@ import { ServiceItem } from '../types';
 
 interface HexagonFlowerProps {
   onSelectService: (serviceId: string) => void;
+  onOpenBooking?: () => void;
   isMuted?: boolean;
 }
 
@@ -117,7 +118,51 @@ function playCubeSound(isBecomingCube: boolean, isMuted?: boolean) {
   }
 }
 
-export default function HexagonFlower({ onSelectService, isMuted = true }: HexagonFlowerProps) {
+// ==========================================
+// 3D ISOMETRIC LOGO MATHEMATICAL PROJECTIONS
+// ==========================================
+// Projects 3D isometric coordinates to 2D screen coordinates for viewBox="0 0 140 145"
+const projectLogo3D = (u: number, v: number, w: number) => {
+  const scale = 1.35; // optimal size
+  const X0 = 64;      // center
+  const Y0 = 96;      // vertical center
+  const x = X0 + (0.866 * u - 0.866 * v) * scale;
+  const y = Y0 + (0.5 * u + 0.5 * v - w) * scale;
+  return `${x.toFixed(1)},${y.toFixed(1)}`;
+};
+
+// Stem of P (Main Column)
+const stemFrontLeft = `${projectLogo3D(10, 0, 0)} ${projectLogo3D(10, 0, 60)} ${projectLogo3D(10, 10, 60)} ${projectLogo3D(10, 10, 0)}`;
+const stemFrontRight = `${projectLogo3D(10, 10, 0)} ${projectLogo3D(10, 10, 60)} ${projectLogo3D(0, 10, 60)} ${projectLogo3D(0, 10, 0)}`;
+const stemTop = `${projectLogo3D(10, 0, 60)} ${projectLogo3D(10, 10, 60)} ${projectLogo3D(0, 10, 60)} ${projectLogo3D(0, 0, 60)}`;
+
+// Slanted Left Leg of A
+const leftLegFrontLeft = `${projectLogo3D(10, 35, 0)} ${projectLogo3D(10, 0, 60)} ${projectLogo3D(0, 0, 60)} ${projectLogo3D(0, 35, 0)}`;
+const leftLegFrontRight = `${projectLogo3D(10, 45, 0)} ${projectLogo3D(10, 10, 60)} ${projectLogo3D(0, 10, 60)} ${projectLogo3D(0, 45, 0)}`;
+const leftLegOuter = `${projectLogo3D(10, 35, 0)} ${projectLogo3D(10, 45, 0)} ${projectLogo3D(10, 10, 60)} ${projectLogo3D(10, 0, 60)}`;
+const leftLegInner = `${projectLogo3D(0, 35, 0)} ${projectLogo3D(0, 45, 0)} ${projectLogo3D(0, 10, 60)} ${projectLogo3D(0, 0, 60)}`;
+
+// Crossbar of A
+const crossbarFront = `${projectLogo3D(10, 20, 20)} ${projectLogo3D(10, 20, 28)} ${projectLogo3D(10, 10, 28)} ${projectLogo3D(10, 10, 20)}`;
+const crossbarTop = `${projectLogo3D(10, 20, 28)} ${projectLogo3D(0, 20, 28)} ${projectLogo3D(0, 10, 28)} ${projectLogo3D(10, 10, 28)}`;
+
+// P Loop Top Bar
+const pLoopTopFront = `${projectLogo3D(10, 0, 44)} ${projectLogo3D(35, 0, 44)} ${projectLogo3D(35, 0, 54)} ${projectLogo3D(10, 0, 54)}`;
+const pLoopTopTop = `${projectLogo3D(10, 0, 54)} ${projectLogo3D(35, 0, 54)} ${projectLogo3D(35, 10, 54)} ${projectLogo3D(10, 10, 54)}`;
+const pLoopTopBottom = `${projectLogo3D(10, 0, 44)} ${projectLogo3D(35, 0, 44)} ${projectLogo3D(35, 10, 44)} ${projectLogo3D(10, 10, 44)}`;
+
+// P Loop Right Vertical Bar
+const pLoopVertFront = `${projectLogo3D(25, 0, 24)} ${projectLogo3D(35, 0, 24)} ${projectLogo3D(35, 0, 44)} ${projectLogo3D(25, 0, 44)}`;
+const pLoopVertOuter = `${projectLogo3D(35, 0, 24)} ${projectLogo3D(35, 10, 24)} ${projectLogo3D(35, 10, 44)} ${projectLogo3D(35, 0, 44)}`;
+const pLoopVertInner = `${projectLogo3D(25, 0, 24)} ${projectLogo3D(25, 10, 24)} ${projectLogo3D(25, 10, 44)} ${projectLogo3D(25, 0, 44)}`;
+
+// P Loop Bottom Bar
+const pLoopBottomFront = `${projectLogo3D(10, 0, 24)} ${projectLogo3D(35, 0, 24)} ${projectLogo3D(35, 0, 34)} ${projectLogo3D(10, 0, 34)}`;
+const pLoopBottomTop = `${projectLogo3D(10, 0, 34)} ${projectLogo3D(35, 0, 34)} ${projectLogo3D(35, 10, 34)} ${projectLogo3D(10, 10, 34)}`;
+const pLoopBottomBottom = `${projectLogo3D(10, 0, 24)} ${projectLogo3D(35, 0, 24)} ${projectLogo3D(35, 10, 24)} ${projectLogo3D(10, 10, 24)}`;
+
+
+export default function HexagonFlower({ onSelectService, onOpenBooking, isMuted = true }: HexagonFlowerProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [cubifiedIds, setCubifiedIds] = useState<string[]>([]);
 
@@ -127,8 +172,8 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
     {
       id: 'exterior',
       service: SERVICES.find(s => s.id === 'exterior')!,
-      x: 50,
-      y: 19,
+      x: 36,
+      y: 25.75,
       color: 'rgba(255, 122, 0, 0.85)',
       glowColor: 'rgba(255, 122, 0, 0.65)',
       icon: Building2,
@@ -136,8 +181,8 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
     {
       id: 'animation',
       service: SERVICES.find(s => s.id === 'animation')!,
-      x: 76,
-      y: 34,
+      x: 64,
+      y: 25.75,
       color: 'rgba(168, 85, 247, 0.85)',
       glowColor: 'rgba(168, 85, 247, 0.65)',
       icon: Video,
@@ -145,8 +190,8 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
     {
       id: 'models',
       service: SERVICES.find(s => s.id === 'models')!,
-      x: 76,
-      y: 66,
+      x: 78,
+      y: 50,
       color: 'rgba(6, 182, 212, 0.85)',
       glowColor: 'rgba(6, 182, 212, 0.65)',
       icon: Box,
@@ -154,8 +199,8 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
     {
       id: 'concept',
       service: SERVICES.find(s => s.id === 'concept')!,
-      x: 50,
-      y: 81,
+      x: 64,
+      y: 74.25,
       color: 'rgba(250, 204, 21, 0.85)',
       glowColor: 'rgba(250, 204, 21, 0.65)',
       icon: Sparkles,
@@ -163,8 +208,8 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
     {
       id: 'tours',
       service: SERVICES.find(s => s.id === 'tours')!,
-      x: 24,
-      y: 66,
+      x: 36,
+      y: 74.25,
       color: 'rgba(59, 130, 246, 0.85)',
       glowColor: 'rgba(59, 130, 246, 0.65)',
       icon: Compass,
@@ -172,8 +217,8 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
     {
       id: 'interior',
       service: SERVICES.find(s => s.id === 'interior')!,
-      x: 24,
-      y: 34,
+      x: 22,
+      y: 50,
       color: 'rgba(16, 185, 129, 0.85)',
       glowColor: 'rgba(16, 185, 129, 0.65)',
       icon: Layers,
@@ -273,110 +318,340 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
 
       {/* CENTRAL LUXURY GOLD LOGO HEXAGON WITH RICH 3D EXTRUSION & PARALLAX HOVER */}
       <div 
-        className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 w-[26.5%] cursor-pointer group"
+        className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 w-[28%] cursor-pointer group"
         style={{
           aspectRatio: '100/115',
           filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.6)) drop-shadow(0 0 12px rgba(223, 177, 91, 0.22))',
           perspective: '1200px'
         }}
         id="center-logo-hexagon"
+        onClick={onOpenBooking}
       >
-        {/* Revolving Core wrapper containing multiple physical 3D depths/shelves */}
+        {/* Revolving Core wrapper containing both FRONT and BACK faces */}
         <div 
-          className="w-full h-full relative transition-[transform] duration-[1200ms] ease-out [transform-style:preserve-3d] group-hover:[transform:rotateY(360deg)]"
+          className="w-full h-full relative transition-transform duration-[1500ms] ease-in-out [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
         >
-          {/* LAYER 1: Deep shadow & Golden ambient back-glow */}
+          {/* FRONT FACE (visible at 0deg) */}
           <div 
-            className="absolute inset-0 bg-[#DFB15B]/15 pointer-events-none blur-md rounded-full transition-opacity duration-500 opacity-60 group-hover:opacity-100"
+            className="absolute inset-0 w-full h-full"
             style={{
-              transform: 'translateZ(-16px) scale(0.9)',
-            }}
-          />
-
-          {/* LAYER 2: Back Gold Extruded Rim (Bevel backplane) */}
-          <div 
-            className="absolute inset-0 bg-gradient-to-r from-[#59441B] via-[#91712C] to-[#59441B] border border-[#2b1f06] pointer-events-none"
-            style={{
-              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-              transform: 'translateZ(-6px)',
-            }}
-          />
-
-          {/* LAYER 3: Middle Gold Extruded Edge (Thick metal side bevel) */}
-          <div 
-            className="absolute inset-0 bg-gradient-to-r from-[#DFB15B] via-[#FFF5E0] to-[#DFB15B] pointer-events-none"
-            style={{
-              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-              transform: 'translateZ(-3px)',
-            }}
-          />
-
-          {/* LAYER 4: Dark Slate Core Body (Base interior) */}
-          <div 
-            className="absolute inset-0 bg-[#141414] pointer-events-none"
-            style={{
-              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-              transform: 'translateZ(-1px)',
-            }}
-          />
-
-          {/* LAYER 5: Main Front Face Plate (0px index) */}
-          <div 
-            className="absolute inset-0 bg-[#050505] flex flex-col items-center justify-center p-2 text-center pointer-events-none"
-            style={{
-              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-              background: 'radial-gradient(circle at 50% 35%, rgba(223, 177, 91, 0.22) 0%, #050505 85%)',
-              border: '1.5px solid rgba(223, 177, 91, 0.85)',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+              transformStyle: 'preserve-3d',
               transform: 'translateZ(0px)',
             }}
           >
-            {/* Symmetrical framing lines (inner hex border nested inside) */}
+            {/* LAYER 1: Deep shadow & Golden ambient back-glow */}
             <div 
-              className="absolute inset-[4.5%] border border-[#DFB15B]/35 pointer-events-none" 
-              style={{ 
-                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' 
-              }} 
+              className="absolute inset-0 bg-[#DFB15B]/15 pointer-events-none blur-md rounded-full transition-opacity duration-500 opacity-60 group-hover:opacity-100"
+              style={{
+                transform: 'translateZ(-16px) scale(0.9)',
+              }}
             />
-            
-            {/* High-fidelity light flare reflection sweep */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/12 via-transparent to-transparent pointer-events-none" />
 
-            {/* Radiant ground reflection trace */}
-            <div className="absolute bottom-1.5 left-1/2 -translate-x-[50%] w-[65%] h-[1px] bg-gradient-to-r from-transparent via-[#DFB15B]/50 to-transparent blur-[0.5px] pointer-events-none" />
+            {/* LAYER 2: Back Gold Extruded Rim (Bevel backplane) */}
+            <div 
+              className="absolute inset-0 bg-gradient-to-r from-[#59441B] via-[#91712C] to-[#59441B] border border-[#2b1f06] pointer-events-none"
+              style={{
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                transform: 'translateZ(-6px)',
+              }}
+            />
+
+            {/* LAYER 3: Middle Gold Extruded Edge (Thick metal side bevel) */}
+            <div 
+              className="absolute inset-0 bg-gradient-to-r from-[#DFB15B] via-[#FFF5E0] to-[#DFB15B] pointer-events-none"
+              style={{
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                transform: 'translateZ(-3px)',
+              }}
+            />
+
+            {/* LAYER 4: Dark Slate Core Body (Base interior) */}
+            <div 
+              className="absolute inset-0 bg-[#141414] pointer-events-none"
+              style={{
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                transform: 'translateZ(-1px)',
+              }}
+            />
+
+            {/* LAYER 5: Main Front Face Plate (0px index, full size to prevent gaps and ensure a solid dark backdrop) */}
+            <div 
+              className="absolute inset-0 flex flex-col items-center justify-center p-2 text-center pointer-events-none"
+              style={{
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                background: 'radial-gradient(circle at 50% 40%, rgba(223, 177, 91, 0.22) 0%, rgba(15, 11, 4, 0.9) 60%, #000000 85%)',
+                transform: 'translateZ(0px)',
+              }}
+            >
+              {/* Symmetrical framing lines (inner hex border nested inside) */}
+              <div 
+                className="absolute inset-[5%] border border-[#DFB15B]/30 pointer-events-none z-10" 
+                style={{ 
+                  clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' 
+                }} 
+              />
+              
+              {/* High-fidelity light flare reflection sweep */}
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none z-10" />
+
+              {/* Radiant ground reflection trace */}
+              <div className="absolute bottom-1.5 left-1/2 -translate-x-[50%] w-[65%] h-[1px] bg-gradient-to-r from-transparent via-[#DFB15B]/40 to-transparent blur-[0.5px] pointer-events-none z-10" />
+            </div>
+
+            {/* Crisp 3D Gold Border Overlay (NOT CLIPPED - sibling of the front-face layers, placed at translateZ(1px)) */}
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none z-20"
+              viewBox="0 0 100 115"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ transform: 'translateZ(1px)' }}
+            >
+              <defs>
+                <linearGradient id="center-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFF9E6" />
+                  <stop offset="25%" stopColor="#DFB15B" />
+                  <stop offset="50%" stopColor="#80601F" />
+                  <stop offset="75%" stopColor="#DFB15B" />
+                  <stop offset="100%" stopColor="#FFEAA7" />
+                </linearGradient>
+              </defs>
+              <polygon 
+                points="50 3, 97 30, 97 85, 50 112, 3 85, 3 30" 
+                stroke="url(#center-border-gradient)"
+                strokeWidth="2.8"
+                style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.85))' }}
+              />
+            </svg>
+
+            {/* LAYER 6: Forward Projected Holographic Text Container (Suspended in space) */}
+            <div 
+              className="absolute inset-0 flex flex-col items-center justify-between pointer-events-none"
+              style={{
+                transform: 'translateZ(14px)',
+                transformStyle: 'preserve-3d',
+              }}
+            >
+              <div 
+                className="absolute inset-0 flex flex-col items-center justify-between py-[11%] px-2 z-10 select-none w-full h-full" 
+                style={{ transform: 'translateZ(8px)' }}
+              >
+                {/* Logo wrapper centering the extremely large, high-fidelity 3D AP gold logo */}
+                <div className="flex-1 flex items-center justify-center w-full min-h-0 -mt-1.5">
+                  <svg 
+                    viewBox="0 0 140 145" 
+                    className="w-[74%] h-auto max-w-[145px] aspect-square drop-shadow-[0_8px_20px_rgba(0,0,0,0.95)]" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <defs>
+                      <linearGradient id="gold-front" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#FFFDF5" />
+                        <stop offset="40%" stopColor="#E1B761" />
+                        <stop offset="100%" stopColor="#8C6C26" />
+                      </linearGradient>
+                      <linearGradient id="gold-top" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#FFFDF9" />
+                        <stop offset="50%" stopColor="#F6DF9C" />
+                        <stop offset="100%" stopColor="#D6AB54" />
+                      </linearGradient>
+                      <linearGradient id="gold-dark" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#5C461E" />
+                        <stop offset="50%" stopColor="#3D2D11" />
+                        <stop offset="100%" stopColor="#1F1504" />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Left Leg of A */}
+                    <polygon points={leftLegFrontRight} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={leftLegInner} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={leftLegFrontLeft} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={leftLegOuter} fill="url(#gold-front)" stroke="url(#gold-top)" strokeWidth="0.5" />
+
+                    {/* Crossbar of A */}
+                    <polygon points={crossbarFront} fill="url(#gold-front)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={crossbarTop} fill="url(#gold-top)" stroke="url(#gold-top)" strokeWidth="0.5" />
+
+                    {/* Stem of P (Main Column) */}
+                    <polygon points={stemFrontRight} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={stemFrontLeft} fill="url(#gold-front)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={stemTop} fill="url(#gold-top)" stroke="url(#gold-top)" strokeWidth="0.5" />
+
+                    {/* P Loop Bottom Bar */}
+                    <polygon points={pLoopBottomBottom} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={pLoopBottomFront} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={pLoopBottomTop} fill="url(#gold-top)" stroke="url(#gold-top)" strokeWidth="0.5" />
+
+                    {/* P Loop Right Vertical Bar */}
+                    <polygon points={pLoopVertInner} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={pLoopVertFront} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={pLoopVertOuter} fill="url(#gold-front)" stroke="url(#gold-top)" strokeWidth="0.5" />
+
+                    {/* P Loop Top Bar */}
+                    <polygon points={pLoopTopBottom} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={pLoopTopFront} fill="url(#gold-dark)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                    <polygon points={pLoopTopTop} fill="url(#gold-top)" stroke="url(#gold-top)" strokeWidth="0.5" />
+                  </svg>
+                </div>
+
+                {/* Texts grouped tightly at the bottom - restored to the previous premium style with AP 3D in Cormorant Garamond */}
+                <div className="flex flex-col items-center justify-end w-full mt-auto pb-[3%]">
+                  <span 
+                    className="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] font-serif font-extrabold tracking-[0.1em] text-transparent bg-clip-text bg-gradient-to-b from-[#FFF5E0] via-[#DFB15B] to-[#91712C] leading-none mt-1 select-none"
+                    style={{ 
+                      fontFamily: "'Cormorant Garamond', serif",
+                      filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.85))' 
+                    }}
+                  >
+                    AP 3D
+                  </span>
+                  
+                  <div className="w-[30%] h-[1px] bg-gradient-to-r from-transparent via-[#DFB15B]/40 to-transparent my-1 sm:my-1.5 select-none" />
+                  
+                  <span 
+                    className="text-[3.2px] sm:text-[4px] md:text-[5px] lg:text-[5.5px] xl:text-[6.2px] uppercase tracking-[0.2em] font-bold text-[#fdfdff]/90 font-sans leading-none select-none pl-[0.2em]"
+                    style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.95))' }}
+                  >
+                    3D VISUALIZATION
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* LAYER 6: Forward Projected Holographic Text Container (Suspended in space) */}
+          {/* BACK FACE (visible at 180deg) */}
           <div 
-            className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+            className="absolute inset-0 w-full h-full"
             style={{
-              transform: 'translateZ(14px)',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
               transformStyle: 'preserve-3d',
+              transform: 'rotateY(180deg) translateZ(0px)',
             }}
           >
-            <div className="flex flex-col items-center justify-center z-10 select-none mt-1" style={{ transform: 'translateZ(8px)' }}>
-              {/* AP Logo cast high-contrast drop-shadow */}
-              <span 
-                className="text-4xl xs:text-5xl md:text-5.5xl font-sans font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-[#FFF5E0] via-[#DFB15B] to-[#91712C] leading-none"
-                style={{ filter: 'drop-shadow(0 4px 5px rgba(0,0,0,0.85))' }}
-              >
-                AP
-              </span>
+            {/* LAYER 1: Deep shadow & Golden ambient back-glow */}
+            <div 
+              className="absolute inset-0 bg-[#DFB15B]/20 pointer-events-none blur-md rounded-full transition-opacity duration-500 opacity-60 group-hover:opacity-100"
+              style={{
+                transform: 'translateZ(-16px) scale(0.9)',
+              }}
+            />
+
+            {/* LAYER 2: Back Gold Extruded Rim */}
+            <div 
+              className="absolute inset-0 bg-gradient-to-r from-[#59441B] via-[#91712C] to-[#59441B] border border-[#2b1f06] pointer-events-none"
+              style={{
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                transform: 'translateZ(-6px)',
+              }}
+            />
+
+            {/* LAYER 3: Middle Gold Extruded Edge */}
+            <div 
+              className="absolute inset-0 bg-gradient-to-r from-[#DFB15B] via-[#FFF5E0] to-[#DFB15B] pointer-events-none"
+              style={{
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                transform: 'translateZ(-3px)',
+              }}
+            />
+
+            {/* LAYER 4: Dark Slate Core Body */}
+            <div 
+              className="absolute inset-0 bg-[#0d0c07] pointer-events-none"
+              style={{
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                transform: 'translateZ(-1px)',
+              }}
+            />
+
+            {/* LAYER 5: Main Back Face Plate (full size to prevent gaps and ensure a solid dark backdrop) */}
+            <div 
+              className="absolute inset-0 flex flex-col items-center justify-center p-3 text-center pointer-events-none"
+              style={{
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                background: 'radial-gradient(circle at 50% 40%, rgba(223, 177, 91, 0.22) 0%, rgba(15, 11, 4, 0.9) 60%, #000000 85%)',
+                transform: 'translateZ(0px)',
+              }}
+            >
+              {/* Symmetrical framing lines */}
+              <div 
+                className="absolute inset-[5%] border border-[#DFB15B]/30 pointer-events-none z-10" 
+                style={{ 
+                  clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' 
+                }} 
+              />
               
-              {/* VO7SOT */}
-              <span 
-                className="text-[7.5px] xs:text-[8px] md:text-[9.5px] uppercase tracking-[0.25em] font-semibold text-transparent bg-clip-text bg-gradient-to-b from-[#FFF2D4] to-[#DFB15B] font-sans mt-0.5 leading-none"
-                style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.95))' }}
-              >
-                VO7SOT
-              </span>
-              
-              {/* 3D VISUALIZATION */}
-              <span 
-                className="text-[5px] xs:text-[5.5px] md:text-[6.5px] uppercase tracking-[0.12em] font-bold text-[#fdfdff]/90 bg-[#050505]/75 border border-[#DFB15B]/25 px-1 py-0.5 rounded-[2px] font-sans mt-1.5 leading-none"
-                style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.9))' }}
-              >
-                3D VISUALIZATION
-              </span>
+              {/* High-fidelity light flare reflection sweep */}
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/8 via-transparent to-transparent pointer-events-none z-10" />
+
+              {/* Radiant ground reflection trace */}
+              <div className="absolute bottom-1.5 left-1/2 -translate-x-[50%] w-[65%] h-[1px] bg-gradient-to-r from-transparent via-[#DFB15B]/40 to-transparent blur-[0.5px] pointer-events-none z-10" />
+            </div>
+
+            {/* Crisp 3D Gold Border Overlay (NOT CLIPPED - sibling of the back-face layers, placed at translateZ(1px)) */}
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none z-20"
+              viewBox="0 0 100 115"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ transform: 'translateZ(1px)' }}
+            >
+              <defs>
+                <linearGradient id="center-border-gradient-back" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFF9E6" />
+                  <stop offset="25%" stopColor="#DFB15B" />
+                  <stop offset="50%" stopColor="#80601F" />
+                  <stop offset="75%" stopColor="#DFB15B" />
+                  <stop offset="100%" stopColor="#FFEAA7" />
+                </linearGradient>
+              </defs>
+              <polygon 
+                points="50 3, 97 30, 97 85, 50 112, 3 85, 3 30" 
+                stroke="url(#center-border-gradient-back)"
+                strokeWidth="2.8"
+                style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.85))' }}
+              />
+            </svg>
+
+            {/* LAYER 6: Holographic Text Container */}
+            <div 
+              className="absolute inset-0 flex flex-col items-center justify-center p-3 pointer-events-none"
+              style={{
+                transform: 'translateZ(14px)',
+                transformStyle: 'preserve-3d',
+              }}
+            >
+              <div className="flex flex-col items-center justify-center z-10 select-none w-full h-full p-2" style={{ transform: 'translateZ(8px)' }}>
+                {/* Glowing Premium Icon */}
+                <Sparkles 
+                  className="w-[20%] h-auto max-w-[36px] aspect-square text-[#DFB15B] drop-shadow-[0_0_8px_rgba(223,177,91,0.6)] mb-2" 
+                  style={{ transform: 'translateZ(4px)' }}
+                />
+
+                {/* ORDER INSCRIPTION */}
+                <span 
+                  className="text-[7.5px] sm:text-[9px] md:text-[11px] lg:text-[13px] xl:text-[14px] font-sans font-black tracking-[0.25em] text-[#DFB15B] uppercase leading-tight text-center max-w-[95%]"
+                  style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.85))' }}
+                >
+                  ЗАКАЗАТЬ
+                </span>
+                
+                <span 
+                  className="text-[6.5px] sm:text-[8px] md:text-[9.5px] lg:text-[10px] xl:text-[11px] font-sans font-bold tracking-[0.12em] text-[#FFF2D4] uppercase leading-normal text-center mt-1 max-w-[95%]"
+                  style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.85))' }}
+                >
+                  3D Визуализацию
+                </span>
+
+                {/* Elegant small button badge */}
+                <span 
+                  className="text-[4.5px] sm:text-[5px] md:text-[6px] lg:text-[6.5px] xl:text-[7.5px] uppercase tracking-[0.2em] font-extrabold text-black bg-[#DFB15B] px-2 py-0.5 rounded-[2px] font-sans mt-2.5 sm:mt-3 shadow-[0_0_8px_rgba(223,177,91,0.3)]"
+                  style={{ transform: 'translateZ(5px)' }}
+                >
+                  ОТКРЫТЬ ФОРМУ
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -393,7 +668,7 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
         return (
           <div
             key={node.id}
-            className="absolute -translate-x-[50%] -translate-y-[50%] z-10 w-[26.5%] cursor-pointer"
+            className="absolute -translate-x-[50%] -translate-y-[50%] z-10 w-[28%] cursor-pointer"
             style={{
               left: `${node.x}%`,
               top: `${node.y}%`,
