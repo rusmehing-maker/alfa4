@@ -183,7 +183,11 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
   const isAnyActive = hoveredId !== null || cubifiedIds.length > 0;
 
   return (
-    <div className="relative w-full max-w-[680px] aspect-[1/1] mx-auto select-none" id="hexagon-flower-stage">
+    <div 
+      className="relative w-full max-w-[680px] aspect-square mx-auto select-none" 
+      id="hexagon-flower-stage"
+      style={{ aspectRatio: '1/1' }}
+    >
       {/* Outer ambient soft light field that changes color depending on active hover */}
       <div 
         className="absolute inset-[10%] rounded-full blur-[90px] opacity-40 transition-all duration-1000 z-0"
@@ -269,8 +273,9 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
 
       {/* CENTRAL LUXURY GOLD LOGO HEXAGON WITH RICH 3D EXTRUSION & PARALLAX HOVER */}
       <div 
-        className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 w-[26.5%] aspect-[0.866] cursor-pointer group"
+        className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] z-20 w-[26.5%] cursor-pointer group"
         style={{
+          aspectRatio: '100/115',
           filter: 'drop-shadow(0 6px 20px rgba(0,0,0,0.6)) drop-shadow(0 0 12px rgba(223, 177, 91, 0.22))',
           perspective: '1200px'
         }}
@@ -388,10 +393,11 @@ export default function HexagonFlower({ onSelectService, isMuted = true }: Hexag
         return (
           <div
             key={node.id}
-            className="absolute -translate-x-[50%] -translate-y-[50%] z-10 w-[26.5%] aspect-[0.866] cursor-pointer"
+            className="absolute -translate-x-[50%] -translate-y-[50%] z-10 w-[26.5%] cursor-pointer"
             style={{
               left: `${node.x}%`,
               top: `${node.y}%`,
+              aspectRatio: '100/115'
             }}
             onMouseEnter={() => {
               setHoveredId(node.id);

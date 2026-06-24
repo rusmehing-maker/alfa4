@@ -152,21 +152,21 @@ export default function App() {
       <main className="relative z-10 flex-grow flex flex-col" id="master-main-wrapper">
         
         {/* HERO SECTION STAGE */}
-        <section className="min-h-screen px-6 lg:px-12 flex items-center justify-center pt-28 lg:pt-20 pb-16" id="section-hero">
-          <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <section className="min-h-screen px-6 lg:px-12 flex flex-col items-center justify-center pt-28 lg:pt-24 pb-16" id="section-hero">
+          <div className="max-w-5xl w-full mx-auto flex flex-col items-center justify-center gap-12">
             
-            {/* LEFT AREA: STUDIO HEADLINE CREDENTIALS */}
-            <div className="lg:col-span-5 space-y-5 md:space-y-6 text-center lg:text-left animate-fade-in" id="hero-headlines">
+            {/* CENTERED AREA: STUDIO HEADLINE CREDENTIALS */}
+            <div className="flex flex-col items-center text-center space-y-5 md:space-y-6 max-w-3xl mx-auto animate-fade-in" id="hero-headlines">
               
               {/* Animated Gold Sparkle Header micro tagline */}
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gradient-to-r from-[#DFB15B]/10 to-transparent border-l-2 border-[#DFB15B] text-[8.5px] font-sans font-semibold tracking-[0.25em] text-[#DFB15B] uppercase">
-                <Sparkles className="w-3 h-3 animate-pulse" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-[#DFB15B]/10 to-transparent border-l-2 border-[#DFB15B] text-[9px] font-sans font-semibold tracking-[0.25em] text-[#DFB15B] uppercase">
+                <Sparkles className="w-3.5 h-3.5 animate-pulse" />
                 Архитектура • Интерьер • Визуализация
               </div>
 
               {/* Grand Cinematic Typography headings */}
               <div className="space-y-3">
-                <h1 className="text-3xl sm:text-4xl xl:text-[45px] lg:leading-[1.1] font-serif font-light tracking-tight text-white uppercase">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[48px] leading-[1.15] font-serif font-light tracking-tight text-white uppercase max-w-2xl">
                   Премиальная <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#DFB15B] to-[#9E7B31] font-medium drop-shadow-[0_2px_15px_rgba(223,177,91,0.25)]">
                     3D Визуализация
@@ -174,13 +174,13 @@ export default function App() {
                   и моделирование
                 </h1>
                 
-                <p className="text-[11px] sm:text-xs text-gray-400 font-sans font-light leading-relaxed max-w-md mx-auto lg:mx-0">
+                <p className="text-xs sm:text-[13px] text-gray-400 font-sans font-light leading-relaxed max-w-xl mx-auto">
                   Мы создаём фотореалистичные визуализации и интерактивные 3D-модели, которые продают дорогостоящие идеи и вдохновляют на безупречную реализацию.
                 </p>
               </div>
 
               {/* Call to Action Button */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-1">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-1">
                 <button 
                   onClick={() => handleOpenBooking('exterior')}
                   className="group relative border border-[#DFB15B] hover:border-white px-7 py-3.5 text-[10.5px] font-semibold tracking-[0.25em] uppercase text-[#DFB15B] hover:text-black hover:bg-[#DFB15B] transition-all duration-300 shadow-[0_0_15px_rgba(223,177,91,0.12)] hover:shadow-[0_0_25px_rgba(223,177,91,0.35)] rounded-none cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
@@ -200,8 +200,8 @@ export default function App() {
               </div>
             </div>
 
-            {/* CENTER / RIGHT AREA: SHOWSTOPPING INTERACTIVE HONEYCOMB FLOWER */}
-            <div className="lg:col-span-7 flex justify-center items-center relative" id="hero-hexagon-flower-panel">
+            {/* CENTER / BOTTOM STAGE: SHOWSTOPPING INTERACTIVE HONEYCOMB FLOWER */}
+            <div className="w-full flex justify-center items-center relative" id="hero-hexagon-flower-panel">
               <div className="w-full max-w-[550px] md:max-w-[620px] lg:max-w-[640px] xl:max-w-[680px] relative animate-[float_10s_ease-in-out_infinite]">
                 <HexagonFlower onSelectService={handleSelectService} isMuted={isMuted} />
               </div>
