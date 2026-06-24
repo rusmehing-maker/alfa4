@@ -203,8 +203,9 @@ export default function ThreeGoldenLogo() {
 
   return (
     <div 
-      className="w-[180px] h-[90px] border border-[#DFB15B]/20 bg-black/80 relative overflow-hidden rounded shadow-[0_0_20px_rgba(0,0,0,0.9)] mt-1.5 group/logo"
+      className="border border-[#DFB15B]/20 bg-black/80 relative overflow-hidden rounded shadow-[0_0_20px_rgba(0,0,0,0.9)] mt-1.5 group/logo"
       id="threejs-logo-container"
+      style={{ width: '188px', height: '95px' }}
     >
       {/* Golden accent glow corner lines */}
       <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#DFB15B]/50" />
@@ -216,10 +217,11 @@ export default function ThreeGoldenLogo() {
       <div className="absolute bottom-1 right-2 text-[7px] font-mono tracking-widest text-[#DFB15B]/30 group-hover/logo:text-[#DFB15B]/70 transition-all pointer-events-none select-none uppercase">
         3D • ROTATE
       </div>
-
+      
       <iframe
         srcDoc={threeJsHtml}
-        className="w-full h-full border-none block"
+        className="border-none block"
+        style={{ width: '188px', height: '95px' }}
         title="VO7SOT 3D Golden Logo Space"
         scrolling="no"
         id="threejs-golden-logo-iframe"

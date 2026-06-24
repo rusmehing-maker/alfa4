@@ -399,26 +399,26 @@ export default function HexagonFlower({ onSelectService, onOpenBooking, isMuted 
               }}
             >
               {/* Brand identity texts matched precisely to the uploaded image typography but centered & scaled beautifully */}
-              <div className="flex flex-col items-center justify-center w-full text-center gap-1.5 sm:gap-2.5" style={{ transform: 'translateZ(5px)' }}>
+              <div className="flex flex-col items-center justify-center w-full text-center gap-2 sm:gap-4" style={{ transform: 'translateZ(5px)' }}>
                 <span 
-                  className="text-[18px] sm:text-[22px] md:text-[26px] lg:text-[30px] xl:text-[34px] font-sans font-semibold tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-b from-[#FFF9E6] via-[#DFB15B] to-[#80601F] leading-none select-none pl-[0.3em]"
+                  className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] xl:text-[64px] font-sans font-extrabold tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-b from-[#FFF9E6] via-[#DFB15B] to-[#80601F] leading-none select-none pl-[0.2em]"
                   style={{ 
                     fontFamily: "'Space Grotesk', 'Inter', sans-serif",
-                    filter: 'drop-shadow(0 2px-4px rgba(0,0,0,0.85))' 
+                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.85))' 
                   }}
                 >
                   A P
                 </span>
                 
                 <span 
-                  className="text-[6.5px] sm:text-[7.5px] md:text-[8.5px] lg:text-[9.5px] xl:text-[11px] uppercase tracking-[0.55em] font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#FFF2D4] via-[#DFB15B] to-[#80601F] font-sans leading-none select-none pl-[0.55em]"
+                  className="text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] xl:text-[18px] uppercase tracking-[0.4em] font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-[#FFF2D4] via-[#DFB15B] to-[#80601F] font-sans leading-none select-none pl-[0.4em]"
                   style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.95))' }}
                 >
                   VO7SOT
                 </span>
                 
                 <span 
-                  className="text-[3.5px] sm:text-[4px] md:text-[4.5px] lg:text-[5px] xl:text-[5.5px] uppercase tracking-[0.3em] font-medium text-transparent bg-clip-text bg-gradient-to-b from-[#DFB15B] to-[#80601F] font-sans leading-none select-none pl-[0.3em]"
+                  className="text-[5px] sm:text-[6px] md:text-[7px] lg:text-[8px] xl:text-[9.1px] uppercase tracking-[0.2em] font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#DFB15B] to-[#80601F] font-sans leading-none select-none pl-[0.2em]"
                   style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.95))' }}
                 >
                   3D VISUALIZATION
