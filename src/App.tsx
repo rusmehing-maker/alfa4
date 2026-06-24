@@ -19,6 +19,7 @@ import {
 
 import Navigation from './components/Navigation';
 import HexagonFlower from './components/HexagonFlower';
+import ThreeGoldenLogo from './components/ThreeGoldenLogo';
 import ServiceModal from './components/ServiceModal';
 import BookingForm from './components/BookingForm';
 
@@ -166,12 +167,14 @@ export default function App() {
 
               {/* Grand Cinematic Typography headings */}
               <div className="space-y-3">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[48px] leading-[1.15] font-serif font-light tracking-tight text-white uppercase max-w-4xl">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[48px] leading-[1.15] font-serif font-light tracking-tight text-white uppercase max-w-none sm:whitespace-nowrap">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#DFB15B] to-[#9E7B31] font-medium drop-shadow-[0_2px_15px_rgba(223,177,91,0.25)]">
                     3D Визуализация
                   </span>{" "}
                   и моделирование
                 </h1>
+                
+                <ThreeGoldenLogo />
                 
                 <p className="text-xs sm:text-[13px] text-gray-400 font-sans font-light leading-relaxed max-w-xl mx-auto">
                   Мы создаём фотореалистичные визуализации и интерактивные 3D-модели, которые продают дорогостоящие идеи и вдохновляют на безупречную реализацию.

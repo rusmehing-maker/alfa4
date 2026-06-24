@@ -12,7 +12,6 @@ import {
 } from 'lucide-react';
 import { SERVICES } from '../data';
 import { ServiceItem } from '../types';
-import ThreeGoldenLogo from './ThreeGoldenLogo';
 
 interface NavigationProps {
   onSelectService: (serviceId: string) => void;
@@ -50,8 +49,6 @@ export default function Navigation({ onSelectService, onOpenBooking, activeServi
               V07SOT
             </div>
           </div>
-          
-          <ThreeGoldenLogo />
         </div>
 
         {/* Center: Horizontal Honeycomb Navigation */}
