@@ -174,24 +174,13 @@ export default function App() {
                   и моделирование
                 </h1>
                 
-                <ThreeGoldenLogo />
-                
                 <p className="text-xs sm:text-[13px] text-gray-400 font-sans font-light leading-relaxed max-w-xl mx-auto">
                   Мы создаём фотореалистичные визуализации и интерактивные 3D-модели, которые продают дорогостоящие идеи и вдохновляют на безупречную реализацию.
                 </p>
               </div>
 
-              {/* Call to Action Button */}
+              {/* Call to Action Link */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-1">
-                <button 
-                  onClick={() => handleOpenBooking('exterior')}
-                  className="group relative border border-[#DFB15B] hover:border-white px-7 py-3.5 text-[10.5px] font-semibold tracking-[0.25em] uppercase text-[#DFB15B] hover:text-black hover:bg-[#DFB15B] transition-all duration-300 shadow-[0_0_15px_rgba(223,177,91,0.12)] hover:shadow-[0_0_25px_rgba(223,177,91,0.35)] rounded-none cursor-pointer flex items-center justify-center gap-2 w-full sm:w-auto"
-                  id="btn-main-cta"
-                >
-                  Заказать визуализацию
-                  <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
-                
                 {/* Secondary Explore link */}
                 <a 
                   href="#experience-showroom"
@@ -382,6 +371,25 @@ export default function App() {
                 Каждый ракурс проходит трехэтапный внутренний контроль качества у нашего арт-директора до показа клиенту. Все сметные обязательства закреплены юридически.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* 6. INTERACTIVE 3D BRAND EXPERIENCE SECTION */}
+        <section className="bg-gradient-to-b from-[#030303]/90 to-black px-6 lg:px-12 py-20 relative z-10 border-t border-neutral-900" id="section-interactive-logo">
+          <div className="max-w-7xl mx-auto space-y-12 animate-fade-in">
+            <div className="text-center space-y-3">
+              <span className="text-[10px] tracking-[0.3em] font-mono uppercase text-amber-500/80">
+                ИНТЕРАКТИВНЫЙ ТРЁХМЕРНЫЙ СТЕНД
+              </span>
+              <h2 className="text-3xl lg:text-4xl font-serif text-white tracking-wide uppercase">
+                Почувствуйте Глубину 3D
+              </h2>
+              <p className="text-xs text-gray-400 max-w-xl mx-auto">
+                Интерактивная инсталляция нашей студии. Вращайте сцену мышкой, зажимайте для перемещения и кликайте на золотые планеты или буквы, чтобы запустить световые взрывы салюта. Нажмите кнопку развертывания для полного погружения.
+              </p>
+            </div>
+            
+            <ThreeGoldenLogo />
           </div>
         </section>
 
