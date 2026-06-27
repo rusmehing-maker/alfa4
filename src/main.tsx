@@ -3,6 +3,36 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
+if (typeof window !== 'undefined') {
+  window.addEventListener('error', (e) => {
+    console.error("GLOBAL RUNTIME CRASH DETECTED:", e.error);
+    const root = document.getElementById('root');
+    if (root) {
+      root.innerHTML = `<div style="color: #ff4d4d; padding: 40px; font-family: monospace; background: #080808; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid #ff4d4d33;">
+        <h1 style="font-size: 20px; font-weight: bold; margin-bottom: 20px; letter-spacing: 0.1em; text-transform: uppercase;">Критический сбой приложения</h1>
+        <p style="color: #a0a0a0; font-size: 13px; max-width: 600px; margin-bottom: 30px; line-height: 1.6;">Не удалось запустить приложение из-за ошибки времени выполнения. Пожалуйста, проверьте консоль разработчика.</p>
+        <div style="background: #000; color: #ff6666; padding: 20px; text-align: left; border: 1px solid #331111; max-width: 800px; width: 100%; overflow-x: auto; font-size: 11px; white-space: pre-wrap; line-height: 1.5; border-radius: 4px;">
+          <strong>Ошибка:</strong> ${e.message}\n\n<strong>Источник:</strong> ${e.filename}:${e.lineno}:${e.colno}\n\n<strong>Стек вызовов:</strong>\n${e.error?.stack || 'Нет стека'}
+        </div>
+      </div>`;
+    }
+  });
+
+  window.addEventListener('unhandledrejection', (e) => {
+    console.error("UNHANDLED REJECTION DETECTED:", e.reason);
+    const root = document.getElementById('root');
+    if (root) {
+      root.innerHTML = `<div style="color: #ff4d4d; padding: 40px; font-family: monospace; background: #080808; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid #ff4d4d33;">
+        <h1 style="font-size: 20px; font-weight: bold; margin-bottom: 20px; letter-spacing: 0.1em; text-transform: uppercase;">Сбой асинхронной операции</h1>
+        <p style="color: #a0a0a0; font-size: 13px; max-width: 600px; margin-bottom: 30px; line-height: 1.6;">Асинхронный промис был отклонён без обработки ошибки.</p>
+        <div style="background: #000; color: #ff6666; padding: 20px; text-align: left; border: 1px solid #331111; max-width: 800px; width: 100%; overflow-x: auto; font-size: 11px; white-space: pre-wrap; line-height: 1.5; border-radius: 4px;">
+          <strong>Причина:</strong> ${e.reason?.message || e.reason || 'Неизвестно'}\n\n<strong>Стек вызовов:</strong>\n${e.reason?.stack || 'Нет стека'}
+        </div>
+      </div>`;
+    }
+  });
+}
+
 interface Props {
   children: ReactNode;
 }

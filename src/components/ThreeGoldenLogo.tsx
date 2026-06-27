@@ -7,17 +7,17 @@ export default function ThreeGoldenLogo() {
     <title>VO7SOT Space Flight & Fireworks</title>
     <style>
         body { margin: 0; overflow: hidden; background-color: #000; font-family: sans-serif; user-select: none; -webkit-user-select: none; }
-        canvas { display: block; width: 100vw; height: 100vh; }
+        canvas { display: block; }
         #ui {
             position: absolute; bottom: 20px; width: 100%; text-align: center;
-            color: rgba(255, 255, 255, 0.5); font-size: 11px; pointer-events: none;
+            color: rgba(223, 177, 91, 0.6); font-size: 11px; pointer-events: none;
             letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             font-family: monospace;
         }
         #loading {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: #ffd700; font-size: 15px; font-weight: bold; pointer-events: none; transition: opacity 0.5s;
-            font-family: monospace; letter-spacing: 2px;
+            color: #ffd700; font-size: 14px; font-weight: bold; pointer-events: none; transition: opacity 0.5s;
+            font-family: monospace; letter-spacing: 3px;
         }
     </style>
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
@@ -32,7 +32,7 @@ export default function ThreeGoldenLogo() {
 </head>
 <body>
     <div id="loading">ЗАПУСК ДВИГАТЕЛЕЙ...</div>
-    <div id="ui">КРУТИ СЦЕНУ • КЛИКАЙ ПО ПЛАНЕТАМ ДЛЯ САЛЮТА</div>
+    <div id="ui">Крути сцену • Кликай по планетам для салюта</div>
 
     <script type="module">
         import * as THREE from 'three';
@@ -350,22 +350,17 @@ export default function ThreeGoldenLogo() {
       id="threejs-logo-container"
     >
       {/* Golden accent glow corner lines */}
-      <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#DFB15B]/50" />
-      <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[#DFB15B]/50" />
-      <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[#DFB15B]/50" />
-      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#DFB15B]/50" />
-      
-      {/* Interactive indicator hint */}
-      <div className="absolute bottom-1.5 left-2.5 text-[8.5px] font-mono tracking-widest text-[#DFB15B]/30 group-hover/logo:text-[#DFB15B]/70 transition-all pointer-events-none select-none uppercase">
-        3D • FLIGHT • FIREWORKS • drag to rotate
-      </div>
+      <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#DFB15B]/50 z-10 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[#DFB15B]/50 z-10 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[#DFB15B]/50 z-10 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#DFB15B]/50 z-10 pointer-events-none" />
       
       {/* Target iframe for the native ThreeJS WebGL elements */}
       <iframe 
-        title="ThreeJS Space Flight"
+        title="VO7SOT Space Flight & Fireworks"
         srcDoc={iframeSrcDoc}
-        className="w-full h-full border-0 block"
-        allow="fullscreen"
+        className="w-full h-full border-none block bg-black"
+        sandbox="allow-scripts allow-same-origin"
       />
     </div>
   );

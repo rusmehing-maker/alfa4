@@ -44,6 +44,19 @@ export default function App() {
   // RECENT REAL-TIME COMPARATOR SLIDER
   const [sliderPosition, setSliderPosition] = useState(50);
   const isSliderDragging = useRef(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [viewportWidth, setViewportWidth] = useState<number>(800);
+
+  useEffect(() => {
+    if (!viewportRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setViewportWidth(entry.contentRect.width);
+      }
+    });
+    observer.observe(viewportRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -229,6 +242,7 @@ export default function App() {
             <div className="max-w-4xl mx-auto relative select-none">
               
               <div 
+                ref={viewportRef}
                 className="relative aspect-[16/10] w-full bg-[#0a0a0a] border border-[#DFB15B]/30 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]"
                 onMouseMove={(e) => {
                   if (isSliderDragging.current) {
@@ -272,7 +286,7 @@ export default function App() {
                     alt="Photorealistic finished render"
                     referrerPolicy="no-referrer"
                     className="absolute inset-0 h-full object-cover"
-                    style={{ width: '1000px', maxWidth: 'none', height: '100%' }} // ensure consistent bounds
+                    style={{ width: `${viewportWidth}px`, maxWidth: 'none', height: '100%' }} // ensure consistent bounds
                   />
                 </div>
 
