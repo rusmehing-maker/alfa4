@@ -86,7 +86,7 @@ export default function ServiceModal({ service, onClose, onOpenBooking }: Servic
 
   return (
     <div 
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10 select-none animate-fade-in"
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/95 backdrop-blur-xl flex items-start md:items-center justify-center p-4 py-8 md:p-10 animate-fade-in"
       id={`modal-service-${service.id}`}
     >
       <div className="bg-[#0b0b0b] border border-[#DFB15B]/30 w-full max-w-6xl rounded-none relative overflow-hidden flex flex-col lg:flex-row shadow-[0_0_80px_rgba(223,177,91,0.15)]">

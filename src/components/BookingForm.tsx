@@ -66,10 +66,10 @@ export default function BookingForm({ initialServiceId, onClose }: BookingFormPr
 
   return (
     <div 
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 min-h-screen"
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/95 backdrop-blur-xl flex items-start md:items-center justify-center p-4 py-8 md:p-10 min-h-screen"
       id="booking-form-overlay"
     >
-      <div className="bg-[#0c0c0c] border border-[#DFB15B]/35 w-full max-w-2xl rounded-none relative overflow-hidden shadow-[0_0_80px_rgba(223,177,91,0.2)] p-6 md:p-10 select-none animate-fade-in">
+      <div className="bg-[#0c0c0c] border border-[#DFB15B]/35 w-full max-w-2xl rounded-none relative overflow-hidden shadow-[0_0_80px_rgba(223,177,91,0.2)] p-6 md:p-10 animate-fade-in">
         
         {/* Subtle glowing mesh outline */}
         <div className="absolute top-0 left-0 w-2 h-full bg-[#DFB15B]" />
