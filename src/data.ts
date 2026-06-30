@@ -1,9 +1,9 @@
 import { ServiceItem } from './types';
 
 // Let's import our generated image paths to display them in the portfolio/modals
-import exteriorImage from './assets/images/portfolio_exterior_dusk_1782123154027.jpg';
-import interiorImage from './assets/images/portfolio_interior_luxury_1782123170357.jpg';
-import backgroundHero from './assets/images/luxury_dark_mansion_interior_1782123130408.jpg';
+import exteriorImage from './assets/images/11.jpg';
+import interiorImage from './assets/images/48.jpg';
+import backgroundHero from './assets/images/43.jpg';
 
 export { backgroundHero };
 
