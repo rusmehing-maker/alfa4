@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { SERVICES } from '../data';
 import { ServiceItem } from '../types';
+import Header3DLogo from './Header3DLogo';
 
 interface NavigationProps {
   onSelectService: (serviceId: string) => void;
@@ -37,18 +38,7 @@ export default function Navigation({ onSelectService, onOpenBooking, activeServi
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left Side: Logo & Interactive 3D */}
         <div className="flex flex-col items-start gap-1" id="nav-logo-area">
-          <div 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="cursor-pointer group select-none flex flex-col justify-start"
-            id="nav-logo"
-          >
-            <div className="text-xl lg:text-2xl font-semibold tracking-[0.2em] text-white">
-              3D VISUAL <span className="text-[#DFB15B] font-serif font-light drop-shadow-[0_0_12px_rgba(223,177,91,0.5)]">AP</span>
-            </div>
-            <div className="text-[9px] tracking-[0.5em] text-gray-500 group-hover:text-amber-500/80 transition-all duration-500">
-              V07SOT
-            </div>
-          </div>
+          <Header3DLogo />
         </div>
 
         {/* Center: Horizontal Honeycomb Navigation */}
