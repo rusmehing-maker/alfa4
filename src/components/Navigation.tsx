@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { 
   Building2, 
   Layers, 
@@ -21,6 +22,8 @@ interface NavigationProps {
 }
 
 export default function Navigation({ onSelectService, onOpenBooking, activeServiceId }: NavigationProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Let's define the navigation items matching the request
   const navItems = [
     { id: 'exterior', label: 'EXTERIOR\nVISUALIZATION', icon: Building2, color: '#FF7A00' },
@@ -34,14 +37,14 @@ export default function Navigation({ onSelectService, onOpenBooking, activeServi
   ];
 
   return (
-    <header className="absolute top-0 left-0 w-full z-40 bg-gradient-to-b from-[#060606]/90 via-[#060606]/40 to-transparent pt-4 pb-12 px-6 lg:px-12">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-[#060606] via-[#060606]/95 to-transparent pt-4 pb-8 lg:pb-12 px-4 sm:px-6 lg:px-12 pointer-events-none">
+      <div className="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto relative">
         {/* Left Side: Logo & Interactive 3D */}
-        <div className="flex flex-col items-start gap-1" id="nav-logo-area">
+        <div className="flex flex-col items-start gap-1 z-50" id="nav-logo-area">
           <Header3DLogo />
         </div>
 
-        {/* Center: Horizontal Honeycomb Navigation */}
+        {/* Center: Horizontal Honeycomb Navigation (Desktop) */}
         <nav className="hidden xl:flex items-center gap-1" id="nav-horizontal-menu">
           {navItems.map((item, index) => {
             const IconComponent = item.icon;
@@ -106,7 +109,7 @@ export default function Navigation({ onSelectService, onOpenBooking, activeServi
         </nav>
 
         {/* Right Side: E-mail, Action Box & Hamburger Menu */}
-        <div className="flex items-center gap-6" id="nav-right-actions">
+        <div className="flex items-center gap-4 sm:gap-6 z-50" id="nav-right-actions">
           {/* E-mail Address */}
           <a 
             href="mailto:vo7sot@gmail.com"
@@ -119,11 +122,65 @@ export default function Navigation({ onSelectService, onOpenBooking, activeServi
           {/* Luxury consultation CTA */}
           <button 
             onClick={onOpenBooking}
-            className="border border-[#DFB15B]/50 hover:border-[#DFB15B] px-4 py-2 text-[10px] tracking-[0.2em] uppercase text-[#DFB15B] hover:text-black hover:bg-[#DFB15B] transition-all duration-500 shadow-[0_0_15px_rgba(223,177,91,0.1)] hover:shadow-[0_0_25px_rgba(223,177,91,0.35)] rounded-none"
+            className="border border-[#DFB15B]/50 hover:border-[#DFB15B] px-3 sm:px-4 py-2 text-[10px] tracking-[0.2em] uppercase text-[#DFB15B] hover:text-black hover:bg-[#DFB15B] transition-all duration-500 shadow-[0_0_15px_rgba(223,177,91,0.1)] hover:shadow-[0_0_25px_rgba(223,177,91,0.35)] rounded-none"
             id="btn-fast-consult"
           >
             Заказать
           </button>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="xl:hidden flex items-center justify-center p-2 text-[#DFB15B] hover:text-white transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Dropdown Menu */}
+        <div 
+          className={`absolute top-[100%] left-[-16px] sm:left-[-24px] w-[100vw] bg-[#060606] border-b border-[#DFB15B]/20 flex flex-col p-4 shadow-2xl xl:hidden transition-all duration-300 ease-out origin-top ${
+            isMobileMenuOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'
+          }`}
+        >
+          <div className="max-w-7xl mx-auto w-full px-2">
+            {navItems.map((item, index) => {
+              const IconComponent = item.icon;
+              const isSelected = activeServiceId === item.id;
+              
+              return (
+                <button
+                  key={index}
+                  onClick={() => {
+                    onSelectService(item.id);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`flex items-center gap-4 w-full text-left p-4 border-b border-white/5 transition-colors ${
+                    isSelected ? 'bg-[#DFB15B]/10' : 'hover:bg-white/5'
+                  }`}
+                >
+                  <div className={`w-8 h-8 rounded-none border flex items-center justify-center ${
+                    isSelected ? 'border-[#DFB15B] text-[#DFB15B]' : 'border-white/20 text-white/70'
+                  }`}>
+                    <IconComponent className="w-4 h-4" />
+                  </div>
+                  <span className={`text-xs tracking-widest leading-relaxed whitespace-pre-line ${
+                    isSelected ? 'text-[#DFB15B] font-bold' : 'text-gray-300 font-medium'
+                  }`}>
+                    {item.label.replace('\n', ' ')}
+                  </span>
+                </button>
+              );
+            })}
+            
+            <a 
+              href="mailto:vo7sot@gmail.com"
+              className="flex sm:hidden items-center gap-3 p-4 text-xs tracking-widest text-[#E5E5E5] select-none font-light mt-2"
+            >
+              <Mail className="w-4 h-4 text-[#DFB15B]" />
+              <span className="font-mono">vo7sot@gmail.com</span>
+            </a>
+          </div>
         </div>
       </div>
     </header>

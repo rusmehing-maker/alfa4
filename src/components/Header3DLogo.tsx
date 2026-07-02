@@ -223,14 +223,14 @@ export default function Header3DLogo() {
 
   return (
     <div 
-      className="relative w-48 h-16 cursor-pointer overflow-hidden flex items-center justify-center -ml-4"
+      className="relative w-36 sm:w-48 h-14 sm:h-16 cursor-pointer overflow-hidden flex items-center justify-center -ml-2 sm:-ml-4"
       id="nav-logo"
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     >
       <iframe 
         title="3D VISUAL AP - Gold Comet Logo"
         srcDoc={iframeSrcDoc}
-        className="w-full h-full border-none pointer-events-none scale-125 origin-center mix-blend-screen"
+        className="w-full h-full border-none pointer-events-none scale-[1.3] origin-center mix-blend-screen"
         sandbox="allow-scripts allow-same-origin"
         scrolling="no"
       />
